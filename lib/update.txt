@@ -1,0 +1,23 @@
+Customer Details
+
+Done:
+    design description has been fetched to cutomer page
+    fetch according to the customer id and desing id
+
+Need:
+    edit the design description of the userss
+    now fetch the data from the firebase as per the allocation of the designers
+
+    
+Manager Details
+    Done:
+        customer design has been fetched 
+                allocated data in the database need to fetch and shwoo details according too the deatils
+
+
+    Need:
+        allocate the desinger should show the profile and images of the desinger
+        make a cutomer involvement  in the post
+
+        
+            
