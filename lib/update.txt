@@ -1,0 +1,9 @@
+DONE:
+
+    fetched allocated data
+
+
+NEED:
+    now make a good ui design 
+    notification is going good but the text is not seeing 
+    
