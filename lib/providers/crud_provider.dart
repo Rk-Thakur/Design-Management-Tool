@@ -9,9 +9,12 @@ import 'package:firebase/models/messag.dart';
 import 'package:firebase/models/post.dart';
 import 'package:firebase/models/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:path_provider/path_provider.dart';
 
 final crudProvider = Provider.autoDispose((ref) => CrudProvider());
 final postProvider =
@@ -86,6 +89,8 @@ class CrudProvider {
       {required String title,
       required String description,
       required XFile image,
+      required String whose_image,
+      required String whose_name,
       required String userId}) async {
     try {
       final imageId = DateTime.now().toString();
@@ -99,7 +104,9 @@ class CrudProvider {
         'imageUrl': url,
         'description': description,
         'userId': userId,
+        'whose_image': whose_image,
         'imageId': imageId,
+        'whose_name': whose_name,
         'likes': {
           'like': 0,
           'usernames': [],
@@ -125,6 +132,8 @@ class CrudProvider {
           userId: json['userId'] ?? 'not noll',
           description: json['description'] ?? 'noot null',
           title: json['title'] ?? 'notnull',
+          whose: json['whose_image'] ?? 'not null',
+          whosename: json['whose_name'] ?? 'not null',
           userImage: json['imageUrl'] ?? 'not nuyll',
           likeData: Like.fromJson(json['likes']),
           comments: (json['comments'] as List)
@@ -250,6 +259,33 @@ class CrudProvider {
     }
   }
 
+  Future<String> downloadPost({required Reference ref}) async {
+    try {
+      // final ref = FirebaseStorage.instance.ref().child('postImage/$imageId');
+
+      // final url = await ref.getDownloadURL();
+
+      // return 'success';
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/${ref.name}');
+      await ref.writeToFile(file);
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //                                                                     content:
+      //                                                                         Text('Downloaded ${ref.}')));
+      Get.showSnackbar(
+        GetSnackBar(
+          title: 'Got some error',
+          duration: Duration(seconds: 1),
+          message: '${ref.name}',
+        ),
+      );
+
+      return 'success';
+    } on FirebaseException catch (e) {
+      return '${e.message}';
+    }
+  }
+
 //check this
   Future<void> removeuser({required String uid}) async {
     // try {
@@ -257,10 +293,17 @@ class CrudProvider {
     //   await ref.doc(uid).delete();
     // } on FirebaseException catch (e) {
     // }
-    return await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .delete();
+    // return await FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(uid)
+    //     .delete();
+
+    try {
+      await dbUsers.doc(uid).delete();
+      print('success');
+    } on FirebaseException catch (e) {
+      print(e.message);
+    }
   }
 
   Stream<User> getSingleUser() {
@@ -286,6 +329,8 @@ class CrudProvider {
         title: data['title'],
         userImage: data['userImage'],
         userId: data['userId'],
+        whose: data['whose_image'],
+        whosename: data['whose_name'],
         imageId: data['imageId'],
         id: querySnapshot.docs[0].id,
         likeData: data['likedata'],

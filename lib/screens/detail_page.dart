@@ -29,7 +29,7 @@ class DetailPage extends StatelessWidget {
                 child: ListView(
                   children: [
                     Card(
-                      elevation: 5,
+                      elevation: 10,
                       child: Container(
                         height: 500,
                         width: double.infinity,
@@ -50,6 +50,9 @@ class DetailPage extends StatelessWidget {
                               Colors.black.withOpacity(0.3), BlendMode.darken),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Column(
                       children: [

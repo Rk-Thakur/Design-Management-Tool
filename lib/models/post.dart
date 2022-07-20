@@ -25,6 +25,8 @@ class Post {
   late String title;
   late String description;
   late Like likeData;
+  late String whose;
+  late String whosename;
   late List<Comments> comments;
 
   Post(
@@ -34,6 +36,8 @@ class Post {
       required this.description,
       required this.title,
       required this.userImage,
+      required this.whose,
+      required this.whosename,
       required this.likeData,
       required this.comments});
 }

@@ -24,7 +24,7 @@ class details_screen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 220,
+                height: 600,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
@@ -45,25 +45,104 @@ class details_screen extends StatelessWidget {
                             ),
                           ),
                         )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      user.username,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      user.email,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        color: Colors.red,
+                        height: 300,
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 45.0,
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          user.userImage,
+                                          height: 150,
+                                          width: 150,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      user.username,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 50, vertical: 70),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "20",
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Posts",
+                                        style: TextStyle(
+                                            letterSpacing: 1.5,
+                                            color: Color.fromARGB(
+                                                255, 47, 45, 45)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 70),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "20",
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Likes",
+                                        style: TextStyle(
+                                            letterSpacing: 1.5,
+                                            color: Color.fromARGB(
+                                                255, 47, 45, 45)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    user.email,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
