@@ -21,178 +21,179 @@ class messagepage extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Public group"),
-            leading: Icon(Icons.message),
-          ),
           body: Container(
-            child: Column(
-              children: [
-                Expanded(child: Consumer(
-                  builder: ((context, ref, child) {
-                    final chats = ref.watch(chatProvider);
-                    final user = ref.watch(userStream);
-                    final chat = ref.watch(crudProvider);
+        child: Column(
+          children: [
+            Expanded(child: Consumer(
+              builder: ((context, ref, child) {
+                final chats = ref.watch(chatProvider);
+                final user = ref.watch(userStream);
 
-                    return user.when(
-                        data: (dat) {
-                          return chats.when(
-                              data: (data) {
-                                return ListView.builder(
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
-                                    final dat = data[index];
-                                    final time = DateTime.now()
-                                        .subtract(Duration(minutes: 1));
+                return user.when(
+                    data: (dat) {
+                      return chats.when(
+                          data: (data) {
+                            return ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final dat = data[index];
+                                final time = DateTime.now()
+                                    .subtract(Duration(minutes: 1));
 
-                                    return Row(
-                                      mainAxisAlignment: uid == dat.userId
-                                          ? MainAxisAlignment.end
-                                          : MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: uid == dat.userId
-                                                ? Theme.of(context).accentColor
-                                                : Colors.grey[300],
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          width: 200,
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 16),
-                                          margin: EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 8),
-                                          child: Row(
+                                return Row(
+                                  mainAxisAlignment: uid == dat.userId
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: uid == dat.userId
+                                            ? Theme.of(context).accentColor
+                                            : Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      width: 200,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 16),
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 4, horizontal: 8),
+                                      child: Row(
+                                        children: [
+                                          Column(
                                             children: [
-                                              Column(
-                                                children: [
-                                                  CircleAvatar(
-                                                    radius: 20,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                            dat.imageUrl),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 3,
-                                                  ),
-                                                  Text(
-                                                    dat.username,
-                                                    style:
-                                                        TextStyle(fontSize: 10),
-                                                  )
-                                                ],
+                                              CircleAvatar(
+                                                radius: 20,
+                                                backgroundImage:
+                                                    NetworkImage(dat.imageUrl),
                                               ),
                                               SizedBox(
-                                                width: 10,
+                                                height: 3,
                                               ),
-                                              Container(
-                                                child: Column(
-                                                  children: [
-                                                    AutoSizeText(
-                                                      dat.text,
-                                                      style: TextStyle(
-                                                        color: uid == dat.userId
-                                                            ? Colors.white
-                                                            : Colors.purple,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 10,
-                                                      ),
-                                                      maxLines: 2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                              Text(
+                                                dat.username,
+                                                style: TextStyle(fontSize: 10),
+                                              )
                                             ],
                                           ),
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            child: Column(
+                                              children: [
+                                                AutoSizeText(
+                                                  dat.text,
+                                                  style: TextStyle(
+                                                    color: uid == dat.userId
+                                                        ? Colors.white
+                                                        : Colors.purple,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 10,
+                                                  ),
+                                                  maxLines: 2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 );
                               },
-                              error: (err, stack) => Text("$err"),
-                              loading: () => Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.pink,
-                                    ),
-                                  ));
-                        },
-                        error: (err, stack) => Text("$err"),
-                        loading: () => Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.pink,
-                              ),
-                            ));
-                  }),
-                )),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final chat = ref.watch(crudProvider);
-                    final user = ref.watch(userStream);
-                    return user.when(
-                        data: (data) {
-                          return Container(
-                            margin: EdgeInsets.only(top: 8),
-                            padding: EdgeInsets.all(8),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    controller: textController,
-                                    decoration: InputDecoration(
-                                        labelText: 'Send a message'),
-                                  ),
+                            );
+                          },
+                          error: (err, stack) => Text("$err"),
+                          loading: () => Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.pink,
                                 ),
-                                IconButton(
-                                    onPressed: () async {
-                                      if (textController.text.isNotEmpty) {
-                                        final response = ref
-                                            .read(crudProvider)
-                                            .messageAdd(
-                                                message:
-                                                    textController.text.trim(),
-                                                userId: uid,
-                                                username: data.username,
-                                                imageUrl: data.userImage
-
-                                                // username:
-                                                );
-                                        //notifications
-                                        AwesomeNotifications()
-                                            .createNotification(
-                                          content: NotificationContent(
-                                            id: 1,
-                                            channelKey: 'post',
-                                            title: data.username,
-                                            body:
-                                                textController.text.toString(),
-
-                                            // bigPicture: data.userImage,
-                                            // notificationLayout:
-                                            //     NotificationLayout.BigPicture,
-                                          ),
-                                        );
-                                        textController.clear();
-                                      }
-                                    },
-                                    icon: Icon(Icons.send))
-                              ],
-                            ),
-                          );
-                        },
-                        error: (err, stack) => Text("$err"),
-                        loading: () => Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.pink,
+                              ));
+                    },
+                    error: (err, stack) => Text("$err"),
+                    loading: () => Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.pink,
+                          ),
+                        ));
+              }),
+            )),
+            Consumer(
+              builder: (context, ref, child) {
+                final chat = ref.watch(crudProvider);
+                final user = ref.watch(userStream);
+                return user.when(
+                    data: (data) {
+                      return Container(
+                        margin: EdgeInsets.only(top: 8),
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                minLines: 1,
+                                maxLines: 5,
+                                keyboardType: TextInputType.multiline,
+                                controller: textController,
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                        borderSide: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 239, 235, 234),
+                                            width: 2.0)),
+                                    labelText: 'Send a message',
+                                    hintText: 'Send a Message',
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20))),
                               ),
-                            ));
-                  },
-                ),
-              ],
+                            ),
+                            IconButton(
+                                onPressed: () async {
+                                  if (textController.text.isNotEmpty) {
+                                    final response = ref
+                                        .read(crudProvider)
+                                        .messageAdd(
+                                            message: textController.text.trim(),
+                                            userId: uid,
+                                            username: data.username,
+                                            imageUrl: data.userImage
+
+                                            // username:
+                                            );
+                                    //notifications
+                                    AwesomeNotifications().createNotification(
+                                      content: NotificationContent(
+                                        id: 1,
+                                        channelKey: 'post',
+                                        title: data.username,
+                                        body: textController.text.toString(),
+
+                                        // bigPicture: data.userImage,
+                                        // notificationLayout:
+                                        //     NotificationLayout.BigPicture,
+                                      ),
+                                    );
+                                    textController.clear();
+                                  }
+                                },
+                                icon: Icon(Icons.send))
+                          ],
+                        ),
+                      );
+                    },
+                    error: (err, stack) => Text("$err"),
+                    loading: () => Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.pink,
+                          ),
+                        ));
+              },
             ),
-          )),
+          ],
+        ),
+      )),
     );
   }
 }

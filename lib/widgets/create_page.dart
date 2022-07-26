@@ -73,7 +73,8 @@ class CreatePage extends StatelessWidget {
                                     ),
                                     labelText: 'TITLE',
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2)),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
                                     hintText: 'TITLE'),
                               ),
                             ),
@@ -104,7 +105,8 @@ class CreatePage extends StatelessWidget {
                                     ),
                                     labelText: 'DESCRIPTION',
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2)),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
                                     hintText: 'DESCRIPTION'),
                               ),
                             ),

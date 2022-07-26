@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase/models/post.dart';
 import 'package:firebase/providers/crud_provider.dart';
 import 'package:firebase/screens/detail_page.dart';
@@ -11,9 +12,11 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../main.dart';
@@ -204,39 +207,41 @@ class _homeState extends State<home> {
                                               children: [
                                                 IconButton(
                                                   onPressed: () {
-                                                    Get.defaultDialog(
-                                                        title:
-                                                            "Download Post??",
-                                                        content: Text(
-                                                            "Click on Download !!!!"),
-                                                        actions: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                              child: Icon(Icons
-                                                                  .cancel)),
-                                                          TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                                await ref
-                                                                    .watch(
-                                                                        crudProvider)
-                                                                    .downloadPost(
-                                                                        ref: dat.userImage
-                                                                            as Reference);
-                                                              },
-                                                              child: Icon(Icons
-                                                                  .download)),
-                                                        ]);
+                                                    print('Checked');
+                                                    // Get.defaultDialog(
+                                                    //     title:
+                                                    //         "Download Post??",
+                                                    //     content: Text(
+                                                    //         "Click on Download !!!!"),
+                                                    //     actions: [
+                                                    //       TextButton(
+                                                    //           onPressed: () {
+                                                    //             Navigator.of(
+                                                    //                     context)
+                                                    //                 .pop();
+                                                    //           },
+                                                    //           child: Icon(Icons
+                                                    //               .cancel)),
+                                                    //       TextButton(
+                                                    //           onPressed:
+                                                    //               () async {
+                                                    //             Navigator.of(
+                                                    //                     context)
+                                                    //                 .pop();
+                                                    //             await ref
+                                                    //                 .watch(
+                                                    //                     crudProvider)
+                                                    //                 .downloadPost(
+                                                    //                     ref: dat.userImage
+                                                    //                         as Reference);
+                                                    //           },
+                                                    //           child: Icon(Icons
+                                                    //               .download)),
+                                                    //     ]);
                                                   },
-                                                  icon: Icon(
-                                                    Icons.menu,
+                                                  icon: FaIcon(
+                                                    FontAwesomeIcons
+                                                        .userAstronaut,
                                                     size: 25,
                                                     color: Colors.black,
                                                   ),
@@ -303,6 +308,44 @@ class _homeState extends State<home> {
                                                 height: 400,
                                                 width: double.infinity,
                                                 child: InkWell(
+                                                  onLongPress: () {
+                                                    Get.defaultDialog(
+                                                        title:
+                                                            "Download Post??",
+                                                        content: Text(
+                                                            "Click on Download !!!!"),
+                                                        actions: [
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: Icon(Icons
+                                                                  .cancel)),
+                                                          TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                var tempDir =
+                                                                    await getTemporaryDirectory();
+                                                                String
+                                                                    fullpath =
+                                                                    tempDir.path +
+                                                                        "${dat.title}";
+                                                                ref
+                                                                    .watch(
+                                                                        crudProvider)
+                                                                    .Download(
+                                                                        Dio(),
+                                                                        dat.userImage,
+                                                                        fullpath);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Icon(Icons
+                                                                  .download)),
+                                                        ]);
+                                                  },
                                                   onTap: () {
                                                     Get.to(
                                                         () => DetailPage(

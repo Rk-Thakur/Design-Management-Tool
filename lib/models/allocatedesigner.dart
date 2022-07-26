@@ -1,9 +1,9 @@
 class allocatedesignermodel {
-  late String designDescription;
   late String designername;
+  late String designtitle;
 
   allocatedesignermodel({
-    required this.designDescription,
+    required this.designtitle,
     required this.designername,
   });
 

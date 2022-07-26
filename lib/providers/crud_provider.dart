@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase/models/allocatedesigner.dart';
 import 'package:firebase/models/comment.dart';
 import 'package:firebase/models/customer.dart';
@@ -47,14 +48,14 @@ class CrudProvider {
       FirebaseFirestore.instance.collection('allocateddesigner');
 
   Future<String> allocateDesigner(
-      {required String designDescription,
+      {required String designtitle,
       required String designername,
       required String customerId
       // required String designerId
       }) async {
     try {
       await dballacoteddesigner.add({
-        'designDescription': designDescription,
+        'designtitle': designtitle,
         'designername': designername,
         'customerId': customerId
         // 'designerId': designerId
@@ -153,8 +154,7 @@ class CrudProvider {
     return querySnapshot.docs.map((e) {
       final json = e.data() as Map<String, dynamic>;
       return allocatedesignermodel(
-          designDescription: json['designDescription'],
-          designername: json['designername']);
+          designtitle: json['designtitle'], designername: json['designername']);
     }).toList();
   }
 
@@ -170,7 +170,8 @@ class CrudProvider {
           price: json['price'] ?? 'not price',
           username: json['username'] ?? 'not null',
           userImage: json['userImage'] ?? 'not null',
-          userId: json['userId'] ?? 'not null');
+          userId: json['userId'] ?? 'not null',
+          designtitle: json['designtitle'] ?? 'not null');
     }).toList();
   }
 
@@ -259,30 +260,26 @@ class CrudProvider {
     }
   }
 
-  Future<String> downloadPost({required Reference ref}) async {
+  Future Download(Dio dio, String url, String savepath) async {
     try {
-      // final ref = FirebaseStorage.instance.ref().child('postImage/$imageId');
+      final response = await dio.get(url,
+          onReceiveProgress: showDownloadProgress,
+          options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+          ));
+      File file = File(savepath);
+      var raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+    } catch (e) {
+      print(e);
+    }
+  }
 
-      // final url = await ref.getDownloadURL();
-
-      // return 'success';
-      final dir = await getApplicationDocumentsDirectory();
-      final file = File('${dir.path}/${ref.name}');
-      await ref.writeToFile(file);
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //                                                                     content:
-      //                                                                         Text('Downloaded ${ref.}')));
-      Get.showSnackbar(
-        GetSnackBar(
-          title: 'Got some error',
-          duration: Duration(seconds: 1),
-          message: '${ref.name}',
-        ),
-      );
-
-      return 'success';
-    } on FirebaseException catch (e) {
-      return '${e.message}';
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      print((received / total * 100).toStringAsFixed(0) + "%");
     }
   }
 

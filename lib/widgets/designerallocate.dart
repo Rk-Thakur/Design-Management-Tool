@@ -95,7 +95,7 @@ class designerAllocate extends StatelessWidget {
                             child: Column(
                               children: [
                                 ListTile(
-                                  title: Text(data[index].designDescription),
+                                  title: Text(data[index].designtitle),
                                   subtitle: Text(
                                       data[index].designername.toUpperCase()),
                                 ),

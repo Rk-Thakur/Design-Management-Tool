@@ -23,6 +23,7 @@ class Post {
   late String userImage;
   late String userId;
   late String title;
+
   late String description;
   late Like likeData;
   late String whose;
