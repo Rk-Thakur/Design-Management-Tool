@@ -12,6 +12,7 @@ import 'package:firebase/models/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -260,18 +261,37 @@ class CrudProvider {
     }
   }
 
-  Future Download(Dio dio, String url, String savepath) async {
+  Future Download(String url, String title) async {
     try {
-      final response = await dio.get(url,
-          onReceiveProgress: showDownloadProgress,
-          options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-          ));
-      File file = File(savepath);
-      var raf = file.openSync(mode: FileMode.write);
-      raf.writeFromSync(response.data);
-      await raf.close();
+      // var tempDir = await getTemporaryDirectory();
+      // String fullpath = tempDir.path + "/${dat.title}";
+      // print('Full Path' + "${fullpath}");
+      // final response = await dio.get(url,
+      //     onReceiveProgress: showDownloadProgress,
+      //     options: Options(
+      //       responseType: ResponseType.bytes,
+      //       followRedirects: false,
+      //     ));
+      // File file = File(savepath);
+      // var raf = file.openSync(mode: FileMode.write);
+      // raf.writeFromSync(response.data);
+      // await raf.close();
+      // print('savePath' + "${savepath}");
+
+      final tempDir = await getTemporaryDirectory();
+      // final Directory directory = Directory('/storage/emulated/0/Download');
+
+      final path = '${tempDir.path}/${title}';
+      await Dio().download(url, path);
+      print('Download ${title}');
+      print("Saved at/${path}");
+      if (url.contains(".mp4")) {
+        await GallerySaver.saveVideo(path, toDcim: true);
+      } else if (url.contains(".jpg")) {
+        await GallerySaver.saveImage(path, toDcim: true);
+      } else if (url.contains(".png")) {
+        await GallerySaver.saveImage(path, toDcim: true);
+      }
     } catch (e) {
       print(e);
     }

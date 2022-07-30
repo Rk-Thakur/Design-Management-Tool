@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase/models/post.dart';
 import 'package:firebase/providers/crud_provider.dart';
@@ -9,17 +8,13 @@ import 'package:firebase/screens/messagepage.dart';
 import 'package:firebase/widgets/drawer_widget.dart';
 import 'package:firebase/widgets/edit_page.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-
-import '../main.dart';
 import '../models/user.dart';
 
 class home extends StatefulWidget {
@@ -326,19 +321,12 @@ class _homeState extends State<home> {
                                                           TextButton(
                                                               onPressed:
                                                                   () async {
-                                                                var tempDir =
-                                                                    await getTemporaryDirectory();
-                                                                String
-                                                                    fullpath =
-                                                                    tempDir.path +
-                                                                        "${dat.title}";
                                                                 ref
                                                                     .watch(
                                                                         crudProvider)
                                                                     .Download(
-                                                                        Dio(),
                                                                         dat.userImage,
-                                                                        fullpath);
+                                                                        dat.title);
                                                                 Navigator.pop(
                                                                     context);
                                                               },

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/screens/customerdescdetails.dart';
 import 'package:firebase/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:firebase/providers/crud_provider.dart';
 import 'package:firebase/providers/login_provider.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:get/get.dart';
 
 class customerDesc extends StatefulWidget {
   @override
@@ -90,14 +92,29 @@ class _customerDescState extends State<customerDesc> {
                             final dat = data[index];
                             id = dat.userId;
 
-                            return Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(dat.userImage)),
-                                title: Text(dat.designtitle),
-                                trailing: Text(dat.price.toString()),
-                                subtitle: Text(dat.username),
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  Get.to(
+                                      () => customerdescdetails(
+                                            userImage: dat.userImage,
+                                            designtitle: dat.designtitle,
+                                            price: dat.price.toString(),
+                                            username: dat.username,
+                                            description: dat.designDescription,
+                                          ),
+                                      transition: Transition.fade);
+                                });
+                              },
+                              child: Card(
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(dat.userImage)),
+                                  title: Text(dat.designtitle),
+                                  trailing: Text(dat.price.toString()),
+                                  subtitle: Text(dat.username),
+                                ),
                               ),
                             );
                           });
