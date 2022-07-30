@@ -129,6 +129,7 @@ class LoginSignUpProvider {
         userImage: json['userImage'] ?? 'not null',
         userId: json['userId'] ?? 'not null',
         designId: json['designId'] ?? 'not null',
+        designtitle: json['designtitle'] ?? 'not null',
       );
     }).toList();
   }
@@ -139,6 +140,7 @@ class LoginSignUpProvider {
     required int price,
     required String userId,
     required String userImage,
+    required String title,
   }) async {
     try {
       final designId = DateTime.now().toString();
@@ -149,6 +151,7 @@ class LoginSignUpProvider {
         'userId': userId,
         'userImage': userImage,
         'designId': designId,
+        'designtitle': title
       });
       return 'success';
     } on FirebaseException catch (e) {

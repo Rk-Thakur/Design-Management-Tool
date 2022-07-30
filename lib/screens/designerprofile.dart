@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:customerdesign/models/designer.dart';
 import 'package:customerdesign/providers/auth_provider.dart';
 import 'package:customerdesign/screens/profiledesigner.dart';
 import 'package:flutter/material.dart';

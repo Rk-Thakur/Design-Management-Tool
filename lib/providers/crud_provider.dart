@@ -7,6 +7,7 @@ import 'package:customerdesign/models/design.dart';
 import 'package:customerdesign/models/designer.dart';
 import 'package:customerdesign/models/post.dart';
 import 'package:customerdesign/models/user.dart';
+import 'package:dio/dio.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -77,7 +78,7 @@ class CrudProvider {
     return querySnapshot.docs.map((e) {
       final json = e.data() as Map<String, dynamic>;
       return allocatedesignermodel(
-          designDescription: json['designDescription'],
+          designtitle: json['designtitle'],
           designername: json['designername'],
           customerId: json['customerId']);
     }).toList();
@@ -118,6 +119,30 @@ class CrudProvider {
         'comments': comment.map((e) => e.toJson()).toList(),
       });
     } on FirebaseException catch (e) {}
+  }
+
+  Future Download(Dio dio, String url, String savepath) async {
+    try {
+      final response = await dio.get(url,
+          onReceiveProgress: showDownloadProgress,
+          options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+          ));
+      File file = File(savepath);
+      var raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+      print('savePath' + "${savepath}");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      print((received / total * 100).toStringAsFixed(0) + "%");
+    }
   }
 }
 

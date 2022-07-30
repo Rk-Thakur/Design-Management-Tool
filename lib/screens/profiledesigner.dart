@@ -5,10 +5,12 @@ import 'package:customerdesign/models/user.dart';
 import 'package:customerdesign/providers/crud_provider.dart';
 import 'package:customerdesign/screens/detail_page.dart';
 import 'package:customerdesign/screens/drawer_widget.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 class designerScreen extends StatelessWidget {
   final uid = auth.FirebaseAuth.instance.currentUser!.uid;
@@ -64,22 +66,66 @@ class designerScreen extends StatelessWidget {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: CachedNetworkImage(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: 500,
-                                                  placeholder:
-                                                      (context, String) {
-                                                    return Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Colors.pink,
-                                                      ),
-                                                    );
+                                                child: InkWell(
+                                                  onLongPress: () {
+                                                    Get.defaultDialog(
+                                                        title:
+                                                            "Download Post??",
+                                                        content: Text(
+                                                            "Click on Download !!!!"),
+                                                        actions: [
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: Icon(Icons
+                                                                  .cancel)),
+                                                          TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                var tempDir =
+                                                                    await getTemporaryDirectory();
+                                                                String
+                                                                    fullpath =
+                                                                    tempDir.path +
+                                                                        "/${dat.title}";
+                                                                print('Full Path' +
+                                                                    "${fullpath}");
+
+                                                                ref
+                                                                    .watch(
+                                                                        crudProvider)
+                                                                    .Download(
+                                                                        Dio(),
+                                                                        dat.userImage,
+                                                                        fullpath);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Icon(Icons
+                                                                  .download)),
+                                                        ]);
                                                   },
-                                                  imageUrl: dat.userImage,
-                                                  fit: BoxFit.fill,
+                                                  child: CachedNetworkImage(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height: 500,
+                                                    placeholder:
+                                                        (context, String) {
+                                                      return Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: Colors.pink,
+                                                        ),
+                                                      );
+                                                    },
+                                                    imageUrl: dat.userImage,
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                 ),
                                               ),
                                             ),

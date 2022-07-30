@@ -31,12 +31,12 @@ class allocatedDesigner extends StatelessWidget {
                                 return Card(
                                     child: Column(
                                   children: [
-                                    // if (uid == data[index].userId)
-                                    // if (cus[index].cusomtername ==
-                                    //         data[index].username &&
-                                    //     data[index].designDescription ==
-                                    //         da[index].designDescription)
                                     if (uid == da[index].customerId)
+                                      // if (cus[index].cusomtername ==
+                                      //         data[index].username &&
+                                      //     data[index].designDescription ==
+                                      //         da[index].designDescription)
+                                      // if (uid == da[index].customerId)
                                       Container(
                                           child: ListTile(
                                         onTap: () {
@@ -46,7 +46,7 @@ class allocatedDesigner extends StatelessWidget {
                                         },
                                         title: Text(
                                           da[index]
-                                              .designDescription, //allocated design descrilptiono
+                                              .designtitle, //allocated design descrilptiono
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,

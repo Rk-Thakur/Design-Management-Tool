@@ -19,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final designDescription = TextEditingController();
   final designAmount = TextEditingController();
+  final designtitle = TextEditingController();
   late final Customer customer;
   final _form = GlobalKey<FormState>();
   final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -65,6 +66,32 @@ class _HomeState extends State<Home> {
                                           color: Color(0xff132a4d),
                                         ),
                                       )),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: designtitle,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      validator: (val) {
+                                        if (val!.isEmpty) {
+                                          return 'Title is required';
+                                        }
+
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 15),
+                                          hintText: 'Title',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          )),
+                                    ),
+                                  ),
                                   SizedBox(
                                     height: 10,
                                   ),
@@ -127,15 +154,15 @@ class _HomeState extends State<Home> {
                                           final respnose = await ref
                                               .read(logSignProvider)
                                               .addDesignDescrption(
-                                                username: data.cusomtername
-                                                    .toString(),
-                                                designdescription:
-                                                    designDescription.text,
-                                                price: int.parse(
-                                                    designAmount.text),
-                                                userId: data.customerId,
-                                                userImage: data.customerImage,
-                                              );
+                                                  username: data.cusomtername
+                                                      .toString(),
+                                                  designdescription:
+                                                      designDescription.text,
+                                                  price: int.parse(
+                                                      designAmount.text),
+                                                  userId: data.customerId,
+                                                  userImage: data.customerImage,
+                                                  title: designtitle.text);
                                           if (respnose == 'success') {
                                             Navigator.pop(context);
                                           }

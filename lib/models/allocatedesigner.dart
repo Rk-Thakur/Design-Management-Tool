@@ -1,10 +1,10 @@
 class allocatedesignermodel {
-  late String designDescription;
+  late String designtitle;
   late String designername;
   late String customerId;
 
   allocatedesignermodel(
-      {required this.designDescription,
+      {required this.designtitle,
       required this.designername,
       required this.customerId});
 }
