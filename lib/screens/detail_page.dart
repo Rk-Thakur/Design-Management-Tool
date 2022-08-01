@@ -1,9 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:customerdesign/models/comment.dart';
-import 'package:customerdesign/models/designer.dart';
 import 'package:customerdesign/models/post.dart';
 import 'package:customerdesign/providers/crud_provider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
