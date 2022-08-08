@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:path_provider/path_provider.dart';
 
 class designerScreen extends StatelessWidget {
@@ -58,74 +59,79 @@ class designerScreen extends StatelessWidget {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                Get.to(() => DetailPage(
-                                                    post: dat, user: cus));
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: InkWell(
-                                                  onLongPress: () {
-                                                    Get.defaultDialog(
-                                                        title:
-                                                            "Download Post??",
-                                                        content: Text(
-                                                            "Click on Download !!!!"),
-                                                        actions: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                              child: Icon(Icons
-                                                                  .cancel)),
-                                                          TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                var tempDir =
-                                                                    await getTemporaryDirectory();
-                                                                String
-                                                                    fullpath =
-                                                                    tempDir.path +
-                                                                        "/${dat.title}";
-                                                                print('Full Path' +
-                                                                    "${fullpath}");
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Get.to(() => DetailPage(
+                                                      post: dat, user: cus));
+                                                },
+                                                onLongPress: () {
+                                                  Get.defaultDialog(
+                                                      title: "Download Post??",
+                                                      content: Text(
+                                                          "Click on Download !!!!"),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Icon(
+                                                                Icons.cancel)),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              ref
+                                                                  .watch(
+                                                                      crudProvider)
+                                                                  .Download(
+                                                                      dat.userImage,
+                                                                      dat.title);
 
-                                                                ref
-                                                                    .watch(
-                                                                        crudProvider)
-                                                                    .Download(
-                                                                        Dio(),
-                                                                        dat.userImage,
-                                                                        fullpath);
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Icon(Icons
-                                                                  .download)),
-                                                        ]);
+                                                              GFToast.showToast(
+                                                                '${dat.title} has been Downloaded to Download Folder ✌🏻',
+                                                                context,
+                                                                toastPosition:
+                                                                    GFToastPosition
+                                                                        .BOTTOM,
+                                                                textStyle:
+                                                                    TextStyle(
+                                                                  fontSize: 16,
+                                                                  color:
+                                                                      GFColors
+                                                                          .DARK,
+                                                                ),
+                                                                backgroundColor:
+                                                                    GFColors
+                                                                        .LIGHT,
+                                                              );
+
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Icon(Icons
+                                                                .download)),
+                                                      ]);
+                                                },
+                                                child: CachedNetworkImage(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 500,
+                                                  placeholder:
+                                                      (context, String) {
+                                                    return Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Colors.pink,
+                                                      ),
+                                                    );
                                                   },
-                                                  child: CachedNetworkImage(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height: 500,
-                                                    placeholder:
-                                                        (context, String) {
-                                                      return Center(
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          color: Colors.pink,
-                                                        ),
-                                                      );
-                                                    },
-                                                    imageUrl: dat.userImage,
-                                                    fit: BoxFit.fill,
-                                                  ),
+                                                  imageUrl: dat.userImage,
+                                                  fit: BoxFit.fill,
                                                 ),
                                               ),
                                             ),
@@ -165,18 +171,23 @@ class designerScreen extends StatelessWidget {
                                                                 .usernames
                                                                 .contains(cus
                                                                     .cusomtername)) {
-                                                              ScaffoldMessenger
-                                                                      .of(context)
-                                                                  .hideCurrentMaterialBanner();
-                                                              ScaffoldMessenger
-                                                                      .of(
-                                                                          context)
-                                                                  .showSnackBar(SnackBar(
-                                                                      duration: Duration(
-                                                                          seconds:
-                                                                              1),
-                                                                      content: Text(
-                                                                          "already like thois post")));
+                                                              GFToast.showToast(
+                                                                'Thanks for Response ✌🏻',
+                                                                context,
+                                                                toastPosition:
+                                                                    GFToastPosition
+                                                                        .BOTTOM,
+                                                                textStyle:
+                                                                    TextStyle(
+                                                                  fontSize: 16,
+                                                                  color:
+                                                                      GFColors
+                                                                          .DARK,
+                                                                ),
+                                                                backgroundColor:
+                                                                    GFColors
+                                                                        .LIGHT,
+                                                              );
                                                             } else {
                                                               final likes = Like(
                                                                   like: dat

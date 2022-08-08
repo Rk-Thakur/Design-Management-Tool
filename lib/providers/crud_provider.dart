@@ -12,6 +12,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
@@ -121,27 +122,15 @@ class CrudProvider {
     } on FirebaseException catch (e) {}
   }
 
-  Future Download(Dio dio, String url, String savepath) async {
+  Future Download(String url, String title) async {
     try {
-      final response = await dio.get(url,
-          onReceiveProgress: showDownloadProgress,
-          options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-          ));
-      File file = File(savepath);
-      var raf = file.openSync(mode: FileMode.write);
-      raf.writeFromSync(response.data);
-      await raf.close();
-      print('savePath' + "${savepath}");
+      var id = await ImageDownloader.downloadImage(url);
+      if (id != null) {
+        print('Image is saved ${id}');
+      }
+      return 'success';
     } catch (e) {
       print(e);
-    }
-  }
-
-  void showDownloadProgress(received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + "%");
     }
   }
 }

@@ -39,21 +39,9 @@ class HomeScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     if (uid == dat.userId)
-                                      // InkWell(
-                                      //   // onTap: () {
-                                      //   //   Get.to(() => EditPage(dat),
-                                      //   //       transition: Transition.topLevel);
-                                      //   // },
-                                      //   child: ListTile(
-                                      //     leading: Image.network(dat.userImage),
-                                      //     title: Text(dat.designDescription),
-                                      //     trailing: Text(dat.price.toString()),
-                                      //     // ),
-                                      //   ),
-                                      // ),
                                       Center(
                                         child: Text(
-                                          dat.designDescription,
+                                          dat.designtitle,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: 20,
@@ -61,6 +49,16 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+                                    Center(
+                                      child: Text(
+                                        dat.designDescription,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
                                     SizedBox(
                                       height: 10,
                                     ),

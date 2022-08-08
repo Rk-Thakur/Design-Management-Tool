@@ -32,21 +32,10 @@ class DetailPage extends StatelessWidget {
                       child: Container(
                         height: 500,
                         width: double.infinity,
-                        // child: CachedNetworkImage(
-                        //   fit: BoxFit.fill,
-                        //   width: double.infinity,
-                        //   height: 600,
-                        //   placeholder: (context, url) {
-                        //     return CircularProgressIndicator();
-                        //   },
-                        //   imageUrl: post.userImage,
-                        // ),
                         child: GFImageOverlay(
                           height: 600,
                           width: double.infinity,
                           image: NetworkImage(post.userImage),
-                          colorFilter: new ColorFilter.mode(
-                              Colors.black.withOpacity(0.3), BlendMode.darken),
                         ),
                       ),
                     ),
