@@ -10,10 +10,8 @@ import 'package:firebase/models/messag.dart';
 import 'package:firebase/models/post.dart';
 import 'package:firebase/models/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gallery_saver/gallery_saver.dart';
-import 'package:get/get.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:path_provider/path_provider.dart';
@@ -263,63 +261,14 @@ class CrudProvider {
 
   Future Download(String url, String title) async {
     try {
-      // var tempDir = await getTemporaryDirectory();
-      // String fullpath = tempDir.path + "/${dat.title}";
-      // print('Full Path' + "${fullpath}");
-      // final response = await dio.get(url,
-      //     onReceiveProgress: showDownloadProgress,
-      //     options: Options(
-      //       responseType: ResponseType.bytes,
-      //       followRedirects: false,
-      //     ));
-      // File file = File(savepath);
-      // var raf = file.openSync(mode: FileMode.write);
-      // raf.writeFromSync(response.data);
-      // await raf.close();
-      // print('savePath' + "${savepath}");
-
-      final tempDir = await getTemporaryDirectory();
-      // final Directory directory = Directory('/storage/emulated/0/Download');
-
-      final path = '${tempDir.path}/${title}';
-      await Dio().download(url, path);
-      print('Download ${title}');
-      print("Saved at/${path}");
-      if (url.contains(".mp4")) {
-        await GallerySaver.saveVideo(path, toDcim: true);
-      } else if (url.contains(".jpg")) {
-        await GallerySaver.saveImage(path, toDcim: true);
-      } else if (url.contains(".png")) {
-        await GallerySaver.saveImage(path, toDcim: true);
+      //new Approach
+      var id = await ImageDownloader.downloadImage(url);
+      if (id != null) {
+        print('Image is saved ${id}');
       }
+      return 'success';
     } catch (e) {
       print(e);
-    }
-  }
-
-  void showDownloadProgress(received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + "%");
-    }
-  }
-
-//check this
-  Future<void> removeuser({required String uid}) async {
-    // try {
-    //   final ref = FirebaseFirestore.instance.collection('users');
-    //   await ref.doc(uid).delete();
-    // } on FirebaseException catch (e) {
-    // }
-    // return await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(uid)
-    //     .delete();
-
-    try {
-      await dbUsers.doc(uid).delete();
-      print('success');
-    } on FirebaseException catch (e) {
-      print(e.message);
     }
   }
 

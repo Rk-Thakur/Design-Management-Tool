@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase/models/post.dart';
@@ -8,6 +10,7 @@ import 'package:firebase/screens/messagepage.dart';
 import 'package:firebase/widgets/drawer_widget.dart';
 import 'package:firebase/widgets/edit_page.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -327,6 +330,27 @@ class _homeState extends State<home> {
                                                                     .Download(
                                                                         dat.userImage,
                                                                         dat.title);
+
+                                                                GFToast
+                                                                    .showToast(
+                                                                  '${dat.title} has been Downloaded to Download Folder ✌🏻',
+                                                                  context,
+                                                                  toastPosition:
+                                                                      GFToastPosition
+                                                                          .BOTTOM,
+                                                                  textStyle:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    color:
+                                                                        GFColors
+                                                                            .DARK,
+                                                                  ),
+                                                                  backgroundColor:
+                                                                      GFColors
+                                                                          .LIGHT,
+                                                                );
+
                                                                 Navigator.pop(
                                                                     context);
                                                               },
@@ -387,18 +411,6 @@ class _homeState extends State<home> {
                                                       if (dat.likeData.usernames
                                                           .contains(
                                                               user.username)) {
-                                                        // ScaffoldMessenger.of(
-                                                        //         context)
-                                                        //     .hideCurrentMaterialBanner();
-                                                        // ScaffoldMessenger.of(
-                                                        //         context)
-                                                        //     .showSnackBar(SnackBar(
-                                                        //         duration:
-                                                        //             Duration(
-                                                        //                 seconds:
-                                                        //                     1),
-                                                        //         content: Text(
-                                                        //             "Thankyou for the response")));
                                                         GFToast.showToast(
                                                           'Thanks for Response ✌🏻',
                                                           context,
@@ -463,4 +475,26 @@ class _homeState extends State<home> {
       },
     );
   }
+
+  // Future downloadFile(
+  //     {required String userImage, required String title}) async {
+  //   final tempDir = await getTemporaryDirectory();
+  //   final path = '${tempDir.path}/${title}';
+  //   await Dio().download(userImage, path);
+  //   // final dir = await getApplicationDocumentsDirectory();
+  //   // final file = File('${dir.path}/${ref.name}');
+  //   // await ref.writeToFile(file);
+  //   print('savePath' + "${path}");
+
+  //   GFToast.showToast(
+  //     'Downloaded ${title}',
+  //     context,
+  //     toastPosition: GFToastPosition.BOTTOM,
+  //     textStyle: TextStyle(
+  //       fontSize: 16,
+  //       color: GFColors.DARK,
+  //     ),
+  //     backgroundColor: GFColors.LIGHT,
+  //   );
+  // }
 }
