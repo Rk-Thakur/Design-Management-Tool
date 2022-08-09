@@ -46,426 +46,417 @@ class _homeState extends State<home> {
           child: Scaffold(
             key: _globalKey,
             drawer: drawer_widget(),
-            body: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _globalKey.currentState!.openDrawer();
-                                    });
-                                  },
-                                  child: Icon(
-                                    Icons.menu,
-                                    size: 30,
-                                  ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Container(
+                    height: 45,
+                    width: double.infinity,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _globalKey.currentState!.openDrawer();
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.menu,
+                                  size: 30,
                                 ),
-                                SizedBox(
-                                  width: 25,
-                                ),
-                                GradientText(
-                                  'DMT',
-                                  style: TextStyle(
-                                    fontSize: 30.0,
-                                  ),
-                                  colors: [
-                                    Colors.blue,
-                                    Colors.red,
-                                    Colors.teal,
-                                  ],
-                                ),
-                              ],
-                            ),
-                            InkWell(
-                              onTap: (() {
-                                Get.to(() => messagepage(),
-                                    transition: Transition.zoom);
-                              }),
-                              child: Icon(
-                                Icons.message,
-                                size: 30,
                               ),
+                              SizedBox(
+                                width: 25,
+                              ),
+                              GradientText(
+                                'DMT',
+                                style: TextStyle(
+                                  fontSize: 30.0,
+                                ),
+                                colors: [
+                                  Colors.blue,
+                                  Colors.red,
+                                  Colors.teal,
+                                ],
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: (() {
+                              Get.to(() => messagepage(),
+                                  transition: Transition.zoom);
+                            }),
+                            child: Icon(
+                              Icons.message,
+                              size: 30,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 198, 196, 196),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )),
-                      height: 115,
-                      child: userStream.when(
-                          data: (data) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: data.length,
-                                  itemBuilder: ((context, index) {
-                                    user = data.firstWhere(
-                                        (element) => element.userId == uid);
-                                    final dat = data[index];
-                                    return Container(
-                                      decoration: BoxDecoration(),
-                                      margin: EdgeInsets.only(right: 10),
-                                      child: InkWell(
-                                        onTap: (() {
-                                          Get.to(
-                                              () => details_screen(
-                                                    user: dat,
-                                                    name: dat.username,
-                                                    clickedid: dat.userId,
-                                                  ),
-                                              transition: Transition.fade);
-                                        }),
-                                        child: Column(
-                                          children: [
-                                            CircleAvatar(
-                                              radius: 33,
-                                              backgroundImage:
-                                                  NetworkImage(dat.userImage),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              dat.username,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  })),
-                            );
-                          },
-                          error: (err, stack) => Text("$err"),
-                          loading: () => Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.pink,
-                                ),
-                              )),
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: postStream.when(
-                            data: (data) {
-                              return ListView.builder(
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 198, 196, 196),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        )),
+                    height: 110,
+                    child: userStream.when(
+                        data: (data) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
                                 itemCount: data.length,
-                                itemBuilder: (context, index) {
+                                itemBuilder: ((context, index) {
+                                  user = data.firstWhere(
+                                      (element) => element.userId == uid);
                                   final dat = data[index];
-                                  return Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundImage:
-                                                      NetworkImage(dat.whose),
+                                  return Container(
+                                    decoration: BoxDecoration(),
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: InkWell(
+                                      onTap: (() {
+                                        Get.to(
+                                            () => details_screen(
+                                                  user: dat,
+                                                  name: dat.username,
+                                                  clickedid: dat.userId,
                                                 ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  dat.whosename,
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
+                                            transition: Transition.fade);
+                                      }),
+                                      child: Column(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 33,
+                                            backgroundImage:
+                                                NetworkImage(dat.userImage),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            dat.username,
+                                            style: TextStyle(
+                                              fontSize: 16,
                                             ),
-                                            Row(
-                                              children: [
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                })),
+                          );
+                        },
+                        error: (err, stack) => Text("$err"),
+                        loading: () => Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.pink,
+                              ),
+                            )),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: postStream.when(
+                          data: (data) {
+                            return ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final dat = data[index];
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 20,
+                                                backgroundImage:
+                                                    NetworkImage(dat.whose),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                dat.whosename,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  print('Checked');
+                                                  // Get.defaultDialog(
+                                                  //     title:
+                                                  //         "Download Post??",
+                                                  //     content: Text(
+                                                  //         "Click on Download !!!!"),
+                                                  //     actions: [
+                                                  //       TextButton(
+                                                  //           onPressed: () {
+                                                  //             Navigator.of(
+                                                  //                     context)
+                                                  //                 .pop();
+                                                  //           },
+                                                  //           child: Icon(Icons
+                                                  //               .cancel)),
+                                                  //       TextButton(
+                                                  //           onPressed:
+                                                  //               () async {
+                                                  //             Navigator.of(
+                                                  //                     context)
+                                                  //                 .pop();
+                                                  //             await ref
+                                                  //                 .watch(
+                                                  //                     crudProvider)
+                                                  //                 .downloadPost(
+                                                  //                     ref: dat.userImage
+                                                  //                         as Reference);
+                                                  //           },
+                                                  //           child: Icon(Icons
+                                                  //               .download)),
+                                                  //     ]);
+                                                },
+                                                icon: FaIcon(
+                                                  FontAwesomeIcons
+                                                      .userAstronaut,
+                                                  size: 25,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              if (uid == dat.userId)
                                                 IconButton(
                                                   onPressed: () {
-                                                    print('Checked');
-                                                    // Get.defaultDialog(
-                                                    //     title:
-                                                    //         "Download Post??",
-                                                    //     content: Text(
-                                                    //         "Click on Download !!!!"),
-                                                    //     actions: [
-                                                    //       TextButton(
-                                                    //           onPressed: () {
-                                                    //             Navigator.of(
-                                                    //                     context)
-                                                    //                 .pop();
-                                                    //           },
-                                                    //           child: Icon(Icons
-                                                    //               .cancel)),
-                                                    //       TextButton(
-                                                    //           onPressed:
-                                                    //               () async {
-                                                    //             Navigator.of(
-                                                    //                     context)
-                                                    //                 .pop();
-                                                    //             await ref
-                                                    //                 .watch(
-                                                    //                     crudProvider)
-                                                    //                 .downloadPost(
-                                                    //                     ref: dat.userImage
-                                                    //                         as Reference);
-                                                    //           },
-                                                    //           child: Icon(Icons
-                                                    //               .download)),
-                                                    //     ]);
-                                                  },
-                                                  icon: FaIcon(
-                                                    FontAwesomeIcons
-                                                        .userAstronaut,
-                                                    size: 25,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                if (uid == dat.userId)
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      Get.defaultDialog(
-                                                          title:
-                                                              "Update Or Remove Post",
-                                                          content: Text(
-                                                              'Customize Post'),
-                                                          actions: [
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                  Get.to(
-                                                                      () => EditPage(
-                                                                          dat),
-                                                                      transition:
-                                                                          Transition
-                                                                              .leftToRight);
-                                                                },
-                                                                child: Icon(
-                                                                    Icons
-                                                                        .edit)),
-                                                            TextButton(
-                                                                onPressed:
-                                                                    () async {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                  await ref
-                                                                      .read(
-                                                                          crudProvider)
-                                                                      .postRemove(
-                                                                          postId: dat
-                                                                              .id,
-                                                                          imageId:
-                                                                              dat.imageId);
-                                                                },
-                                                                child: Icon(Icons
-                                                                    .delete)),
-                                                          ]);
-                                                      // Get.to(() => EditPage(dat));
-                                                    },
-                                                    icon: Icon(Icons.more_vert),
-                                                  ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Card(
-                                        elevation: 10,
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: 400,
-                                                width: double.infinity,
-                                                child: InkWell(
-                                                  onLongPress: () {
                                                     Get.defaultDialog(
                                                         title:
-                                                            "Download Post??",
+                                                            "Update Or Remove Post",
                                                         content: Text(
-                                                            "Click on Download !!!!"),
+                                                            'Customize Post'),
                                                         actions: [
                                                           TextButton(
                                                               onPressed: () {
                                                                 Navigator.of(
                                                                         context)
                                                                     .pop();
+                                                                Get.to(
+                                                                    () =>
+                                                                        EditPage(
+                                                                            dat),
+                                                                    transition:
+                                                                        Transition
+                                                                            .leftToRight);
                                                               },
-                                                              child: Icon(Icons
-                                                                  .cancel)),
+                                                              child: Icon(
+                                                                  Icons.edit)),
                                                           TextButton(
                                                               onPressed:
                                                                   () async {
-                                                                ref
-                                                                    .watch(
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                await ref
+                                                                    .read(
                                                                         crudProvider)
-                                                                    .Download(
-                                                                        dat.userImage,
-                                                                        dat.title);
-
-                                                                GFToast
-                                                                    .showToast(
-                                                                  '${dat.title} has been Downloaded to Download Folder ✌🏻',
-                                                                  context,
-                                                                  toastPosition:
-                                                                      GFToastPosition
-                                                                          .BOTTOM,
-                                                                  textStyle:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        16,
-                                                                    color:
-                                                                        GFColors
-                                                                            .DARK,
-                                                                  ),
-                                                                  backgroundColor:
-                                                                      GFColors
-                                                                          .LIGHT,
-                                                                );
-
-                                                                Navigator.pop(
-                                                                    context);
+                                                                    .postRemove(
+                                                                        postId: dat
+                                                                            .id,
+                                                                        imageId:
+                                                                            dat.imageId);
                                                               },
                                                               child: Icon(Icons
-                                                                  .download)),
+                                                                  .delete)),
                                                         ]);
+                                                    // Get.to(() => EditPage(dat));
                                                   },
-                                                  onTap: () {
-                                                    Get.to(
-                                                        () => DetailPage(
-                                                              post: dat,
-                                                              user: user,
-                                                            ),
-                                                        transition: Transition
-                                                            .leftToRight);
+                                                  icon: Icon(Icons.more_vert),
+                                                ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Card(
+                                      elevation: 10,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              height: 400,
+                                              width: double.infinity,
+                                              child: InkWell(
+                                                onLongPress: () {
+                                                  Get.defaultDialog(
+                                                      title: "Download Post??",
+                                                      content: Text(
+                                                          "Click on Download !!!!"),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Icon(
+                                                                Icons.cancel)),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              ref
+                                                                  .watch(
+                                                                      crudProvider)
+                                                                  .Download(
+                                                                      dat.userImage,
+                                                                      dat.title);
+
+                                                              GFToast.showToast(
+                                                                '${dat.title} has been Downloaded to Download Folder ✌🏻',
+                                                                context,
+                                                                toastPosition:
+                                                                    GFToastPosition
+                                                                        .BOTTOM,
+                                                                textStyle:
+                                                                    TextStyle(
+                                                                  fontSize: 16,
+                                                                  color:
+                                                                      GFColors
+                                                                          .DARK,
+                                                                ),
+                                                                backgroundColor:
+                                                                    GFColors
+                                                                        .LIGHT,
+                                                              );
+
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Icon(Icons
+                                                                .download)),
+                                                      ]);
+                                                },
+                                                onTap: () {
+                                                  Get.to(
+                                                      () => DetailPage(
+                                                            post: dat,
+                                                            user: user,
+                                                          ),
+                                                      transition: Transition
+                                                          .leftToRight);
+                                                },
+                                                child: CachedNetworkImage(
+                                                  placeholder:
+                                                      (context, String) {
+                                                    return Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Colors.pink,
+                                                      ),
+                                                    );
                                                   },
-                                                  child: CachedNetworkImage(
-                                                    placeholder:
-                                                        (context, String) {
-                                                      return Center(
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          color: Colors.pink,
-                                                        ),
-                                                      );
-                                                    },
-                                                    imageUrl: dat.userImage,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                  imageUrl: dat.userImage,
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            height: 40,
-                                            width: 70,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                // if (dat.userId != uid)
-                                                IconButton(
-                                                    onPressed: () {
-                                                      if (dat.likeData.usernames
-                                                          .contains(
-                                                              user.username)) {
-                                                        GFToast.showToast(
-                                                          'Thanks for Response ✌🏻',
-                                                          context,
-                                                          toastPosition:
-                                                              GFToastPosition
-                                                                  .BOTTOM,
-                                                          textStyle: TextStyle(
-                                                            fontSize: 16,
-                                                            color:
-                                                                GFColors.DARK,
-                                                          ),
-                                                          backgroundColor:
-                                                              GFColors.LIGHT,
-                                                        );
-                                                      } else {
-                                                        final likes = Like(
-                                                            like: dat.likeData
-                                                                    .like +
-                                                                1,
-                                                            usernames: [
-                                                              ...dat.likeData
-                                                                  .usernames,
-                                                              user.username
-                                                            ]);
-                                                        int sumlike = likes
-                                                            .like.bitLength;
-
-                                                        ref
-                                                            .read(crudProvider)
-                                                            .addlike(
-                                                                likes, dat.id);
-                                                      }
-                                                    },
-                                                    icon: Icon(Icons.thumb_up)),
-                                                if (dat.likeData.like != 0)
-                                                  Text("${dat.likeData.like}"),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                              ],
-                                            ),
-                                          )
+                                          ),
                                         ],
-                                      )
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            error: (err, stack) => Text("$err"),
-                            loading: () => Container()),
-                      ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          height: 40,
+                                          width: 70,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // if (dat.userId != uid)
+                                              IconButton(
+                                                  onPressed: () {
+                                                    if (dat.likeData.usernames
+                                                        .contains(
+                                                            user.username)) {
+                                                      GFToast.showToast(
+                                                        'Thanks for Response ✌🏻',
+                                                        context,
+                                                        toastPosition:
+                                                            GFToastPosition
+                                                                .BOTTOM,
+                                                        textStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          color: GFColors.DARK,
+                                                        ),
+                                                        backgroundColor:
+                                                            GFColors.LIGHT,
+                                                      );
+                                                    } else {
+                                                      final likes = Like(
+                                                          like: dat.likeData
+                                                                  .like +
+                                                              1,
+                                                          usernames: [
+                                                            ...dat.likeData
+                                                                .usernames,
+                                                            user.username
+                                                          ]);
+                                                      int sumlike =
+                                                          likes.like.bitLength;
+
+                                                      ref
+                                                          .read(crudProvider)
+                                                          .addlike(
+                                                              likes, dat.id);
+                                                    }
+                                                  },
+                                                  icon: Icon(Icons.thumb_up)),
+                                              if (dat.likeData.like != 0)
+                                                Text("${dat.likeData.like}"),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          error: (err, stack) => Text("$err"),
+                          loading: () => Container()),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
