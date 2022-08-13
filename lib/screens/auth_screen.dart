@@ -5,7 +5,6 @@ import 'package:customerdesign/screens/drawer_widget.dart';
 import 'package:customerdesign/screens/forgetpassword.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +16,6 @@ class AuthScreen extends StatelessWidget {
   final customerNameController = TextEditingController();
   final customermailController = TextEditingController();
   final customerpassController = TextEditingController();
-  late final emailError;
 
   final _form = GlobalKey<FormState>();
 
