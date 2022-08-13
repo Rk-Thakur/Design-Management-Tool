@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class CreatePage extends StatelessWidget {
   final titleController = TextEditingController();
@@ -36,13 +37,19 @@ class CreatePage extends StatelessWidget {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
+                            GradientText(
                               'Create Post',
                               style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 2,
                                   color: Colors.blueGrey),
+                              colors: [
+                                const Color(0xffE5E3C9),
+                                const Color(0xffB4CFB0),
+                                const Color(0xff94B49F),
+                                const Color(0xff789395),
+                              ],
                             ),
                             SizedBox(
                               height: 5,
@@ -138,6 +145,10 @@ class CreatePage extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
                               child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Color(0xffB4CFB0))),
                                   onPressed: () async {
                                     _form.currentState!.save();
                                     FocusScope.of(context).unfocus();
@@ -191,7 +202,12 @@ class CreatePage extends StatelessWidget {
                                       }
                                     }
                                   },
-                                  child: Text('Submit')),
+                                  child: Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  )),
                             ),
                           ],
                         ),
@@ -201,7 +217,7 @@ class CreatePage extends StatelessWidget {
               error: (err, stack) => Text("$err"),
               loading: () => Center(
                     child: CircularProgressIndicator(
-                      color: Colors.purple,
+                      color: Color(0xffB4CFB0),
                     ),
                   )));
     }));

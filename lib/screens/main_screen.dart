@@ -1,22 +1,16 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase/models/post.dart';
 import 'package:firebase/providers/crud_provider.dart';
 import 'package:firebase/screens/detail_page.dart';
 import 'package:firebase/screens/details_screen.dart';
 import 'package:firebase/screens/messagepage.dart';
-import 'package:firebase/widgets/drawer_widget.dart';
 import 'package:firebase/widgets/edit_page.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../models/user.dart';
 
@@ -45,9 +39,8 @@ class _homeState extends State<home> {
         return SafeArea(
           child: Scaffold(
             key: _globalKey,
-            drawer: drawer_widget(),
             body: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
                   Container(
@@ -55,62 +48,59 @@ class _homeState extends State<home> {
                     width: double.infinity,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _globalKey.currentState!.openDrawer();
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.menu,
-                                  size: 30,
-                                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            // InkWell(
+                            //   onTap: () {
+                            //     setState(() {
+                            //       _globalKey.currentState!.openDrawer();
+                            //     });
+                            //   },
+                            //   child: Icon(
+                            //     Icons.menu,
+                            //     size: 30,
+                            //   ),
+                            // ),
+                            //
+                            GradientText(
+                              'DMT',
+                              style: TextStyle(
+                                fontSize: 30.0,
                               ),
-                              SizedBox(
-                                width: 25,
-                              ),
-                              GradientText(
-                                'DMT',
-                                style: TextStyle(
-                                  fontSize: 30.0,
-                                ),
-                                colors: [
-                                  Colors.blue,
-                                  Colors.red,
-                                  Colors.teal,
-                                ],
-                              ),
-                            ],
-                          ),
-                          InkWell(
-                            onTap: (() {
-                              Get.to(() => messagepage(),
-                                  transition: Transition.zoom);
-                            }),
-                            child: Icon(
-                              Icons.message,
-                              size: 30,
+                              colors: [
+                                const Color(0xffE5E3C9),
+                                const Color(0xffB4CFB0),
+                                const Color(0xff94B49F),
+                                const Color(0xff789395),
+                              ],
                             ),
+                          ],
+                        ),
+                        InkWell(
+                          onTap: (() {
+                            Get.to(() => messagepage(),
+                                transition: Transition.zoom);
+                          }),
+                          child: Icon(
+                            Icons.message,
+                            color: Color(0xff94B49F),
+                            size: 30,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 198, 196, 196),
+                        color: Color(0xffE5E3C9),
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                         )),
-                    height: 110,
+                    height: 108,
                     child: userStream.when(
                         data: (data) {
                           return Padding(
@@ -173,281 +163,280 @@ class _homeState extends State<home> {
                               itemCount: data.length,
                               itemBuilder: (context, index) {
                                 final dat = data[index];
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              CircleAvatar(
-                                                radius: 20,
-                                                backgroundImage:
-                                                    NetworkImage(dat.whose),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                dat.whosename,
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
+                                return Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundImage:
+                                                      NetworkImage(dat.whose),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () {
-                                                  print('Checked');
-                                                  // Get.defaultDialog(
-                                                  //     title:
-                                                  //         "Download Post??",
-                                                  //     content: Text(
-                                                  //         "Click on Download !!!!"),
-                                                  //     actions: [
-                                                  //       TextButton(
-                                                  //           onPressed: () {
-                                                  //             Navigator.of(
-                                                  //                     context)
-                                                  //                 .pop();
-                                                  //           },
-                                                  //           child: Icon(Icons
-                                                  //               .cancel)),
-                                                  //       TextButton(
-                                                  //           onPressed:
-                                                  //               () async {
-                                                  //             Navigator.of(
-                                                  //                     context)
-                                                  //                 .pop();
-                                                  //             await ref
-                                                  //                 .watch(
-                                                  //                     crudProvider)
-                                                  //                 .downloadPost(
-                                                  //                     ref: dat.userImage
-                                                  //                         as Reference);
-                                                  //           },
-                                                  //           child: Icon(Icons
-                                                  //               .download)),
-                                                  //     ]);
-                                                },
-                                                icon: FaIcon(
-                                                  FontAwesomeIcons
-                                                      .userAstronaut,
-                                                  size: 25,
-                                                  color: Colors.black,
+                                                SizedBox(
+                                                  width: 10,
                                                 ),
-                                              ),
-                                              if (uid == dat.userId)
+                                                Text(
+                                                  dat.whosename,
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
                                                 IconButton(
                                                   onPressed: () {
-                                                    Get.defaultDialog(
-                                                        title:
-                                                            "Update Or Remove Post",
-                                                        content: Text(
-                                                            'Customize Post'),
-                                                        actions: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                                Get.to(
-                                                                    () =>
-                                                                        EditPage(
-                                                                            dat),
-                                                                    transition:
-                                                                        Transition
-                                                                            .leftToRight);
-                                                              },
-                                                              child: Icon(
-                                                                  Icons.edit)),
-                                                          TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                                await ref
-                                                                    .read(
-                                                                        crudProvider)
-                                                                    .postRemove(
-                                                                        postId: dat
-                                                                            .id,
-                                                                        imageId:
-                                                                            dat.imageId);
-                                                              },
-                                                              child: Icon(Icons
-                                                                  .delete)),
-                                                        ]);
-                                                    // Get.to(() => EditPage(dat));
+                                                    print('Checked');
                                                   },
-                                                  icon: Icon(Icons.more_vert),
+                                                  icon: FaIcon(
+                                                    FontAwesomeIcons
+                                                        .userAstronaut,
+                                                    size: 25,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Card(
-                                      elevation: 10,
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              height: 400,
-                                              width: double.infinity,
-                                              child: InkWell(
-                                                onLongPress: () {
-                                                  Get.defaultDialog(
-                                                      title: "Download Post??",
-                                                      content: Text(
-                                                          "Click on Download !!!!"),
-                                                      actions: [
-                                                        TextButton(
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            child: Icon(
-                                                                Icons.cancel)),
-                                                        TextButton(
-                                                            onPressed:
-                                                                () async {
-                                                              ref
-                                                                  .watch(
-                                                                      crudProvider)
-                                                                  .Download(
-                                                                      dat.userImage,
-                                                                      dat.title);
-
-                                                              GFToast.showToast(
-                                                                '${dat.title} has been Downloaded to Download Folder ✌🏻',
-                                                                context,
-                                                                toastPosition:
-                                                                    GFToastPosition
-                                                                        .BOTTOM,
-                                                                textStyle:
-                                                                    TextStyle(
-                                                                  fontSize: 16,
-                                                                  color:
-                                                                      GFColors
-                                                                          .DARK,
-                                                                ),
-                                                                backgroundColor:
-                                                                    GFColors
-                                                                        .LIGHT,
-                                                              );
-
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Icon(Icons
-                                                                .download)),
-                                                      ]);
-                                                },
-                                                onTap: () {
-                                                  Get.to(
-                                                      () => DetailPage(
-                                                            post: dat,
-                                                            user: user,
-                                                          ),
-                                                      transition: Transition
-                                                          .leftToRight);
-                                                },
-                                                child: CachedNetworkImage(
-                                                  placeholder:
-                                                      (context, String) {
-                                                    return Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Colors.pink,
-                                                      ),
-                                                    );
-                                                  },
-                                                  imageUrl: dat.userImage,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          height: 40,
-                                          width: 70,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // if (dat.userId != uid)
-                                              IconButton(
-                                                  onPressed: () {
-                                                    if (dat.likeData.usernames
-                                                        .contains(
-                                                            user.username)) {
-                                                      GFToast.showToast(
-                                                        'Thanks for Response ✌🏻',
-                                                        context,
-                                                        toastPosition:
-                                                            GFToastPosition
-                                                                .BOTTOM,
-                                                        textStyle: TextStyle(
-                                                          fontSize: 16,
-                                                          color: GFColors.DARK,
-                                                        ),
-                                                        backgroundColor:
-                                                            GFColors.LIGHT,
-                                                      );
-                                                    } else {
-                                                      final likes = Like(
-                                                          like: dat.likeData
-                                                                  .like +
-                                                              1,
-                                                          usernames: [
-                                                            ...dat.likeData
-                                                                .usernames,
-                                                            user.username
+                                                if (uid == dat.userId)
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      Get.defaultDialog(
+                                                          title:
+                                                              "Update Or Remove Post",
+                                                          content: Text(
+                                                              'Customize Post'),
+                                                          actions: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                  Get.to(
+                                                                      () => EditPage(
+                                                                          dat),
+                                                                      transition:
+                                                                          Transition
+                                                                              .leftToRight);
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.edit,
+                                                                  color: Color(
+                                                                      0xffB4CFB0),
+                                                                )),
+                                                            TextButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                  await ref
+                                                                      .read(
+                                                                          crudProvider)
+                                                                      .postRemove(
+                                                                          postId: dat
+                                                                              .id,
+                                                                          imageId:
+                                                                              dat.imageId);
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.delete,
+                                                                  color: Color(
+                                                                      0xffB4CFB0),
+                                                                )),
                                                           ]);
-                                                      int sumlike =
-                                                          likes.like.bitLength;
+                                                      // Get.to(() => EditPage(dat));
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.more_vert,
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Card(
+                                          elevation: 10,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  height: 400,
+                                                  width: double.infinity,
+                                                  child: InkWell(
+                                                    onLongPress: () {
+                                                      Get.defaultDialog(
+                                                          title:
+                                                              "Download Post??",
+                                                          content: Text(
+                                                              "Click on Download !!!!"),
+                                                          actions: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.cancel,
+                                                                  color: Color(
+                                                                      0xffB4CFB0),
+                                                                )),
+                                                            TextButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  ref
+                                                                      .watch(
+                                                                          crudProvider)
+                                                                      .Download(
+                                                                          dat.userImage,
+                                                                          dat.title);
 
-                                                      ref
-                                                          .read(crudProvider)
-                                                          .addlike(
-                                                              likes, dat.id);
-                                                    }
-                                                  },
-                                                  icon: Icon(Icons.thumb_up)),
-                                              if (dat.likeData.like != 0)
-                                                Text("${dat.likeData.like}"),
-                                              SizedBox(
-                                                width: 10,
+                                                                  GFToast
+                                                                      .showToast(
+                                                                    '${dat.title} has been Downloaded to Download Folder ✌🏻',
+                                                                    context,
+                                                                    toastPosition:
+                                                                        GFToastPosition
+                                                                            .BOTTOM,
+                                                                    textStyle:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: GFColors
+                                                                          .DARK,
+                                                                    ),
+                                                                    backgroundColor:
+                                                                        GFColors
+                                                                            .LIGHT,
+                                                                  );
+
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .download,
+                                                                  color: Color(
+                                                                      0xffB4CFB0),
+                                                                )),
+                                                          ]);
+                                                    },
+                                                    onTap: () {
+                                                      Get.to(
+                                                          () => DetailPage(
+                                                                post: dat,
+                                                                user: user,
+                                                              ),
+                                                          transition: Transition
+                                                              .leftToRight);
+                                                    },
+                                                    child: CachedNetworkImage(
+                                                      placeholder:
+                                                          (context, String) {
+                                                        return Center(
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            color: Colors.pink,
+                                                          ),
+                                                        );
+                                                      },
+                                                      imageUrl: dat.userImage,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              height: 40,
+                                              width: 70,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  // if (dat.userId != uid)
+
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        if (dat
+                                                            .likeData.usernames
+                                                            .contains(user
+                                                                .username)) {
+                                                          GFToast.showToast(
+                                                            'Thanks for Response ✌🏻',
+                                                            context,
+                                                            toastPosition:
+                                                                GFToastPosition
+                                                                    .BOTTOM,
+                                                            textStyle:
+                                                                TextStyle(
+                                                              fontSize: 16,
+                                                              color:
+                                                                  GFColors.DARK,
+                                                            ),
+                                                            backgroundColor:
+                                                                GFColors.LIGHT,
+                                                          );
+                                                        } else {
+                                                          final likes = Like(
+                                                              like: dat.likeData
+                                                                      .like +
+                                                                  1,
+                                                              usernames: [
+                                                                ...dat.likeData
+                                                                    .usernames,
+                                                                user.username
+                                                              ]);
+                                                          int sumlike = likes
+                                                              .like.bitLength;
+
+                                                          ref
+                                                              .read(
+                                                                  crudProvider)
+                                                              .addlike(likes,
+                                                                  dat.id);
+                                                        }
+                                                      },
+                                                      icon:
+                                                          Icon(Icons.thumb_up)),
+                                                  if (dat.likeData.like != 0)
+                                                    Text(
+                                                        "${dat.likeData.like}"),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
                                         )
                                       ],
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 );
                               },
                             );

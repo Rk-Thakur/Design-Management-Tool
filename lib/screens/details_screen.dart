@@ -28,7 +28,7 @@ class details_screen extends StatelessWidget {
               child: Container(
                 height: 210,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 174, 179, 178),
+                  color: Color(0xffE5E3C9),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 width: MediaQuery.of(context).size.width,
@@ -131,10 +131,7 @@ class details_screen extends StatelessWidget {
                                 itemCount: data.length,
                                 itemBuilder: (context, index) {
                                   final dat = data[index];
-                                  var counts = (clickedid == dat.userId);
-                                  if (counts == true) {
-                                    count++;
-                                  }
+
                                   return Card(
                                     child: Column(
                                       children: [
@@ -154,6 +151,9 @@ class details_screen extends StatelessWidget {
                                                   },
                                                   imageUrl: dat.userImage,
                                                   fit: BoxFit.fill,
+                                                ),
+                                                SizedBox(
+                                                  height: 50,
                                                 ),
                                               ],
                                             ),

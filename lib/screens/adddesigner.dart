@@ -5,6 +5,7 @@ import 'package:firebase/providers/image_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../providers/login_provider.dart';
 
@@ -33,13 +34,19 @@ class adddesigner extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  GradientText(
                     'Add Designer',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2,
                         color: Colors.blueGrey),
+                    colors: [
+                      const Color(0xffE5E3C9),
+                      const Color(0xffB4CFB0),
+                      const Color(0xff94B49F),
+                      const Color(0xff789395),
+                    ],
                   ),
                   SizedBox(
                     height: 15,
@@ -138,6 +145,9 @@ class adddesigner extends StatelessWidget {
                   Container(
                     height: 45,
                     child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xffB4CFB0))),
                       onPressed: () async {
                         _form.currentState!.save();
                         ref.read(loadingProvider.notifier).toogle();
@@ -161,7 +171,12 @@ class adddesigner extends StatelessWidget {
                           }
                         }
                       },
-                      child: Text('Submit'),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
                 ],

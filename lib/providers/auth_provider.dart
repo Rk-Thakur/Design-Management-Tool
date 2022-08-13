@@ -69,7 +69,7 @@ class LoginSignUpProvider {
       return 'adduser';
     } on FirebaseException catch (err) {
       print(err);
-      return '';
+      return '${err.message}';
     }
   }
 

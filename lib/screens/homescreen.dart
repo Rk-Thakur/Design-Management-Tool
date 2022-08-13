@@ -1,7 +1,9 @@
 import 'package:firebase/screens/main_screen.dart';
 import 'package:firebase/screens/setting.dart';
+import 'package:firebase/widgets/create_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class home_screen extends StatefulWidget {
@@ -13,7 +15,7 @@ class _home_screenState extends State<home_screen> {
   int currentTab = 0;
   final List<Widget> screens = [
     home(),
-    setting(),
+    Seetting(),
   ];
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = home();
@@ -26,7 +28,9 @@ class _home_screenState extends State<home_screen> {
       child: Scaffold(
         body: PageStorage(bucket: bucket, child: currentScreen),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(() => CreatePage(), transition: Transition.fadeIn);
+          },
           backgroundColor: Color(0xffB4CFB0),
           child: Lottie.asset('assets/images/graphic.json'),
         ),
@@ -65,7 +69,7 @@ class _home_screenState extends State<home_screen> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = setting();
+                      currentScreen = Seetting();
                       currentTab = 1;
                     });
                   },

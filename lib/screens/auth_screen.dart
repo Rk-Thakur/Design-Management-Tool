@@ -58,34 +58,6 @@ class AuthScreen extends StatelessWidget {
                   SizedBox(
                     height: 25,
                   ),
-                  if (!isLogin)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: TextFormField(
-                        controller: userNameController,
-                        decoration: InputDecoration(hintText: 'Username'),
-                      ),
-                    ),
-                  if (!isLogin)
-                    InkWell(
-                      onTap: () {
-                        ref.read(imageProvider).getImage();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Container(
-                          height: 140,
-                          child: db.image == null
-                              ? Center(
-                                  child: Text('please select an image'),
-                                )
-                              : Image.file(
-                                  File(db.image!.path),
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                      ),
-                    ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: TextFormField(
@@ -105,11 +77,11 @@ class AuthScreen extends StatelessWidget {
                         labelText: "Email",
                         hintText: 'Email',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(2),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         prefixIcon: Icon(
                           Icons.email,
-                          color: HexColor("#2396B2"),
+                          color: HexColor("#94B49F"),
                         ),
                       ),
                       // decoration: InputDecoration(hintText: 'Email'),
@@ -133,18 +105,18 @@ class AuthScreen extends StatelessWidget {
                               width: 2.0),
                         ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         prefixIcon: Icon(
                           Icons.lock,
-                          color: HexColor("#2396B2"),
+                          color: HexColor("#94B49F"),
                         ),
                         labelText: "Password",
                         suffixIcon: IconButton(
                           onPressed: () {},
                           icon: Icon(
                             Icons.remove_red_eye,
-                            color: HexColor("#2396B2"),
+                            color: HexColor("#94B49F"),
                           ),
                         ),
                       ),
@@ -157,9 +129,10 @@ class AuthScreen extends StatelessWidget {
                   InkWell(
                     onTap: () async {
                       _form.currentState!.save();
-                      ref.read(loadingProvider.notifier).toogle();
                       FocusScope.of(context).unfocus();
                       _form.currentState!.validate();
+                      ref.read(loadingProvider.notifier).toogle();
+
                       if (isLogin) {
                         final response = ref.read(logSignProvider).Login(
                             email: mailController.text.trim(),
@@ -195,7 +168,7 @@ class AuthScreen extends StatelessWidget {
                       margin: EdgeInsets.only(
                           top: 20, left: 40, right: 40, bottom: 10),
                       decoration: BoxDecoration(
-                          color: HexColor("#2396B2"),
+                          color: HexColor("#94B49F"),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.black26)),
                       width: double.infinity,

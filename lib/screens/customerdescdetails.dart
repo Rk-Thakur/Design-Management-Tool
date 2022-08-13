@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class customerdescdetails extends StatelessWidget {
@@ -27,6 +28,7 @@ class customerdescdetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    // CachedNetworkImage(imageUrl: userImage,),
                     CircleAvatar(
                       radius: 60,
                       backgroundImage: NetworkImage(userImage),

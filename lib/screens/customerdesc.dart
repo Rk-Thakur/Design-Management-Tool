@@ -130,7 +130,7 @@ class _customerDescState extends State<customerDesc> {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Color(0xffB4CFB0),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     width: MediaQuery.of(context).size.width,
@@ -239,6 +239,10 @@ class _customerDescState extends State<customerDesc> {
                                 ],
                               ),
                               ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Color(0xff789395))),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus();
                                     final response = await ref

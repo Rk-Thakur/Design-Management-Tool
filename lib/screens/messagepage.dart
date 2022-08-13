@@ -48,8 +48,8 @@ class messagepage extends ConsumerWidget {
                                     Container(
                                       decoration: BoxDecoration(
                                         color: uid == dat.userId
-                                            ? Theme.of(context).accentColor
-                                            : Colors.grey[300],
+                                            ? Color(0xffB4CFB0)
+                                            : Color(0xffE5E3C9),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       width: 200,
@@ -163,18 +163,18 @@ class messagepage extends ConsumerWidget {
                                             // username:
                                             );
                                     //notifications
-                                    AwesomeNotifications().createNotification(
-                                      content: NotificationContent(
-                                        id: 1,
-                                        channelKey: 'post',
-                                        title: data.username,
-                                        body: textController.text.toString(),
+                                    // AwesomeNotifications().createNotification(
+                                    //   content: NotificationContent(
+                                    //     id: 1,
+                                    //     channelKey: 'post',
+                                    //     title: data.username,
+                                    //     body: textController.text.toString(),
 
-                                        // bigPicture: data.userImage,
-                                        // notificationLayout:
-                                        //     NotificationLayout.BigPicture,
-                                      ),
-                                    );
+                                    //     // bigPicture: data.userImage,
+                                    //     // notificationLayout:
+                                    //     //     NotificationLayout.BigPicture,
+                                    //   ),
+                                    // );
                                     textController.clear();
                                   }
                                 },
