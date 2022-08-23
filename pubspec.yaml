@@ -54,6 +54,7 @@ dependencies:
   email_validator: "^1.0.6"
   getwidget: ^2.0.4
   image_downloader: ^0.31.0
+  lottie: ^1.4.1
 
 dev_dependencies:
   flutter_test:

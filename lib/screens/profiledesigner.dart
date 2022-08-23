@@ -1,17 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:customerdesign/models/designer.dart';
 import 'package:customerdesign/models/post.dart';
 import 'package:customerdesign/models/user.dart';
 import 'package:customerdesign/providers/crud_provider.dart';
 import 'package:customerdesign/screens/detail_page.dart';
-import 'package:customerdesign/screens/drawer_widget.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:path_provider/path_provider.dart';
 
 class designerScreen extends StatelessWidget {
   final uid = auth.FirebaseAuth.instance.currentUser!.uid;
@@ -24,8 +21,10 @@ class designerScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Profile Post"),
+          centerTitle: true,
+          backgroundColor: Color(0xffB4CFB0),
         ),
-        drawer: drawer_widget(),
+        // drawer: drawer_widget(),
         body: SafeArea(
             child: Column(
           children: [
@@ -51,12 +50,18 @@ class designerScreen extends StatelessWidget {
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Text(
-                                              dat.title,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  dat.title,
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             Padding(
@@ -144,7 +149,7 @@ class designerScreen extends StatelessWidget {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    dat.description,
+                                                    '',
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                     ),

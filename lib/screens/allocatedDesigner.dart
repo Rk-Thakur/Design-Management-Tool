@@ -12,7 +12,11 @@ class allocatedDesigner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Allocated Designer")),
+      appBar: AppBar(
+        title: Text("Allocated Designer"),
+        centerTitle: true,
+        backgroundColor: Color(0xffB4CFB0),
+      ),
       body: Consumer(builder: (context, ref, child) {
         final allocateStream = ref.watch(allocateProvider);
         final userStream = ref.watch(userProvider);

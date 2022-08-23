@@ -1,5 +1,6 @@
 import 'package:customerdesign/providers/auth_provider.dart';
 import 'package:customerdesign/screens/auth_screen.dart';
+import 'package:customerdesign/screens/homescree.dart';
 import 'package:customerdesign/screens/main_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +18,7 @@ class StatusCheck extends StatelessWidget {
               if (data == null) {
                 return AuthScreen();
               } else {
-                return HomeScreen();
+                return home_screen();
               }
             },
             error: (err, stack) => Text("$err"),

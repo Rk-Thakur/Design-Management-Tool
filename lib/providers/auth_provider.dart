@@ -123,6 +123,7 @@ class LoginSignUpProvider {
     return querySnapshot.docs.map((e) {
       final json = e.data() as Map<String, dynamic>;
       return design_details(
+        id: e.id,
         designDescription: json['designDescription'] ?? 'not null',
         price: json['price'] ?? 'not price',
         username: json['username'] ?? 'not null',
@@ -156,6 +157,15 @@ class LoginSignUpProvider {
       return 'success';
     } on FirebaseException catch (e) {
       return '${e}' + "oorchid";
+    }
+  }
+
+  Future<String> removedescription({required String postId}) async {
+    try {
+      await dbCustomerDesign.doc(postId).delete();
+      return 'success';
+    } on FirebaseException catch (e) {
+      return "${e.message}";
     }
   }
 }

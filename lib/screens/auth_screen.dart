@@ -1,14 +1,11 @@
 import 'dart:io';
-
 import 'package:customerdesign/providers/login_provider.dart';
 import 'package:customerdesign/screens/drawer_widget.dart';
 import 'package:customerdesign/screens/forgetpassword.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../providers/auth_provider.dart';
 import '../providers/image_provider.dart';
 
@@ -16,14 +13,12 @@ class AuthScreen extends StatelessWidget {
   final customerNameController = TextEditingController();
   final customermailController = TextEditingController();
   final customerpassController = TextEditingController();
-
   final _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          // backgroundColor: Color(0xffE9EFC0),
           drawer: drawer_widget(),
           body: Consumer(builder: (context, ref, child) {
             final isLogin = ref.watch(loginProvider);

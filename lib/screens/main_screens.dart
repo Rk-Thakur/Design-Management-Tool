@@ -21,9 +21,9 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Description"),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 114, 203, 92),
+          backgroundColor: Color(0xffB4CFB0),
         ),
-        drawer: drawer_widget(),
+        // drawer: drawer_widget(),
         body: Container(
             child: customerStream.when(
                 data: (data) {
@@ -33,36 +33,139 @@ class HomeScreen extends StatelessWidget {
                             itemCount: datas.length,
                             itemBuilder: (context, index) {
                               final dat = datas[index];
-                              return Card(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    if (uid == dat.userId)
-                                      Center(
-                                        child: Text(
-                                          dat.designtitle,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
+                              return InkWell(
+                                onLongPress: () async {
+                                  final response = ref
+                                      .read(logSignProvider)
+                                      .removedescription(postId: dat.id);
+                                  if (response == 'success') {
+                                    print("deleted ${dat.id}");
+                                  }
+                                },
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        if (uid == dat.userId)
+                                          Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                'Title:',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              )),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            dat.designtitle,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    Center(
-                                      child: Text(
-                                        dat.designDescription,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          height: 20,
                                         ),
-                                      ),
+                                        Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              'Design Description:',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey[600],
+                                              ),
+                                            )),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            dat.designDescription,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              'Price:',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey[600],
+                                              ),
+                                            )),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            dat.price.toString(),
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        //   Center(
+                                        //     child: Text(
+                                        //       dat.designtitle,
+                                        //       textAlign: TextAlign.center,
+                                        //       style: TextStyle(
+                                        //         fontSize: 20,
+                                        //         fontWeight: FontWeight.bold,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // Center(
+                                        //   child: Text(
+                                        //     dat.designDescription,
+                                        //     textAlign: TextAlign.center,
+                                        //     style: TextStyle(
+                                        //       fontSize: 20,
+                                        //       fontWeight: FontWeight.bold,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // Center(
+                                        //   child: Text(
+                                        //     dat.price.toString(),
+                                        //     textAlign: TextAlign.center,
+                                        //     style: TextStyle(
+                                        //       fontSize: 20,
+                                        //       fontWeight: FontWeight.bold,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // SizedBox(
+                                        //   height: 10,
+                                        // ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               );
                             });

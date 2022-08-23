@@ -16,8 +16,8 @@ Manager Details
 
 
     Need:
-        allocate the desinger should show the profile and images of the desinger
-        make a cutomer involvement  in the post
+        while deleting the post detail should also delete the alocated designer  as well as the design description
+
 
         
             

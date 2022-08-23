@@ -102,6 +102,10 @@ class DetailPage extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerRight,
                               child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Color(0xffB4CFB0))),
                                   onPressed: () async {
                                     SystemChannels.textInput
                                         .invokeMethod('TextInput.hide');
@@ -116,7 +120,7 @@ class DetailPage extends StatelessWidget {
                                         .addComment(post.comments, post.id);
                                     commentController.clear();
                                   },
-                                  child: Text("submit")),
+                                  child: Text("Submit")),
                             ),
                             posts.when(
                                 data: (data) {
