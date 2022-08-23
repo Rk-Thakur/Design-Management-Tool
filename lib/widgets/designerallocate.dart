@@ -22,15 +22,23 @@ class designerAllocate extends StatelessWidget {
                     return ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (context, index) {
+                          final dat = data[index];
                           return Container(
                             child: Column(
                               children: [
-                                Card(
-                                  elevation: 5,
-                                  child: ListTile(
-                                    title: Text(data[index].designtitle),
-                                    subtitle: Text(
-                                        data[index].designername.toUpperCase()),
+                                InkWell(
+                                  onTap: () {
+                                    final response = ref
+                                        .read(crudProvider)
+                                        .removeallocation(allocationid: dat.id);
+                                  },
+                                  child: Card(
+                                    elevation: 5,
+                                    child: ListTile(
+                                      title: Text(dat.designtitle),
+                                      subtitle:
+                                          Text(dat.designername.toUpperCase()),
+                                    ),
                                   ),
                                 ),
                               ],

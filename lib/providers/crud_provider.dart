@@ -77,7 +77,8 @@ class CrudProvider {
         'createdAt': Timestamp.now(),
         'userId': userId,
         'username': username,
-        'imageUrl': imageUrl
+        'imageUrl': imageUrl,
+        'messageId': DateTime.now().toString(),
       });
       return 'success';
     } on FirebaseException catch (e) {
@@ -153,8 +154,20 @@ class CrudProvider {
     return querySnapshot.docs.map((e) {
       final json = e.data() as Map<String, dynamic>;
       return allocatedesignermodel(
-          designtitle: json['designtitle'], designername: json['designername']);
+          id: e.id,
+          designtitle: json['designtitle'],
+          designername: json['designername']);
     }).toList();
+  }
+
+  Future<String> removeallocation({required String allocationid}) async {
+    try {
+      await dballacoteddesigner.doc(allocationid).delete();
+      return 'success';
+    } on FirebaseException catch (e) {
+      print("${e.message}");
+      return '${e.message}';
+    }
   }
 
   Stream<List<design_details>> getCustomerDesignDetails() {
@@ -185,10 +198,12 @@ class CrudProvider {
     return querySnapshot.docs.map((e) {
       final json = e.data() as Map<String, dynamic>;
       return message(
+        id: e.id,
         text: json['message'] ?? 'skdjf',
         username: json['username'] ?? 'ksadjfkl',
         imageUrl: json['imageUrl'] ?? 'kasjdf',
         userId: json['userId'] ?? 'ksdfa',
+        messageId: json['messageId'] ?? 'message',
       );
     }).toList();
   }
@@ -254,6 +269,15 @@ class CrudProvider {
       await ref.delete();
       await dbPosts.doc(postId).delete();
       return 'sucess';
+    } on FirebaseException catch (e) {
+      return '${e.message}';
+    }
+  }
+
+  Future<String> removemessage({required String messageId}) async {
+    try {
+      await dbChats.doc(messageId).delete();
+      return 'success';
     } on FirebaseException catch (e) {
       return '${e.message}';
     }

@@ -20,7 +20,7 @@ class customerdescdetails extends StatelessWidget {
         body: Card(
           child: Container(
             width: double.infinity,
-            height: 500,
+            height: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Center(

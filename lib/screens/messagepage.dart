@@ -45,57 +45,71 @@ class messagepage extends ConsumerWidget {
                                       ? MainAxisAlignment.end
                                       : MainAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: uid == dat.userId
-                                            ? Color(0xffB4CFB0)
-                                            : Color(0xffE5E3C9),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      width: 200,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 16),
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: 4, horizontal: 8),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              CircleAvatar(
-                                                radius: 20,
-                                                backgroundImage:
-                                                    NetworkImage(dat.imageUrl),
-                                              ),
-                                              SizedBox(
-                                                height: 3,
-                                              ),
-                                              Text(
-                                                dat.username,
-                                                style: TextStyle(fontSize: 10),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                            child: Column(
+                                    InkWell(
+                                      onLongPress: () async {
+                                        final response = await ref
+                                            .read(crudProvider)
+                                            .removemessage(messageId: dat.id);
+
+                                        if (response == 'success') {
+                                          print('not deleted');
+                                        }
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: uid == dat.userId
+                                              ? Color(0xffB4CFB0)
+                                              : Color(0xffE5E3C9),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        width: 200,
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 16),
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 8),
+                                        child: Row(
+                                          children: [
+                                            Column(
                                               children: [
-                                                AutoSizeText(
-                                                  dat.text,
-                                                  style: TextStyle(
-                                                    color: uid == dat.userId
-                                                        ? Colors.white
-                                                        : Colors.purple,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 10,
-                                                  ),
-                                                  maxLines: 2,
+                                                CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundImage: NetworkImage(
+                                                      dat.imageUrl),
                                                 ),
+                                                SizedBox(
+                                                  height: 3,
+                                                ),
+                                                Text(
+                                                  dat.username,
+                                                  style:
+                                                      TextStyle(fontSize: 10),
+                                                )
                                               ],
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Container(
+                                              child: Column(
+                                                children: [
+                                                  AutoSizeText(
+                                                    dat.text,
+                                                    style: TextStyle(
+                                                      color: uid == dat.userId
+                                                          ? Colors.white
+                                                          : Colors.purple,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 10,
+                                                    ),
+                                                    maxLines: 2,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

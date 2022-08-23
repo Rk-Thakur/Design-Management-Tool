@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:firebase/screens/main_screen.dart';
 import 'package:firebase/screens/status_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

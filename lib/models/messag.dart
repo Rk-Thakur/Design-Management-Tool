@@ -3,28 +3,15 @@ class message {
   late final String username;
   late final String imageUrl;
   late final String userId;
+  late final String messageId;
+  late final String id;
 
-  message(
-      {required this.text,
-      required this.username,
-      required this.imageUrl,
-      required this.userId});
-
-  factory message.fromJson(Map<String, dynamic> json) {
-    return message(
-        text: json['message'],
-        username: json['username'],
-        imageUrl: json['imageUrl'],
-        userId: json['userId']);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'imageUrl': this.imageUrl,
-      'username': this.username,
-      'message': this.text,
-      'userId': this.userId
-      // 'createdAt': this.createat
-    };
-  }
+  message({
+    required this.text,
+    required this.username,
+    required this.imageUrl,
+    required this.userId,
+    required this.messageId,
+    required this.id,
+  });
 }
