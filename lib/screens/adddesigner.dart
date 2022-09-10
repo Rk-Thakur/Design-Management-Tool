@@ -78,14 +78,17 @@ class adddesigner extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.black),
                         ),
-                        height: 190,
+                        height: 220,
                         child: db.image == null
                             ? Center(
                                 child: Text('please select an image'),
                               )
-                            : Image.file(
-                                File(db.image!.path),
-                                fit: BoxFit.fill,
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.file(
+                                  File(db.image!.path),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                       ),
                     ),
@@ -145,39 +148,54 @@ class adddesigner extends StatelessWidget {
                   Container(
                     height: 45,
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xffB4CFB0))),
-                      onPressed: () async {
-                        _form.currentState!.save();
-                        ref.read(loadingProvider.notifier).toogle();
-                        FocusScope.of(context).unfocus();
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xffB4CFB0))),
+                        onPressed: () async {
+                          _form.currentState!.save();
+                          ref.read(loadingProvider.notifier).toogle();
+                          FocusScope.of(context).unfocus();
 
-                        if (db.image == null) {
-                          Get.defaultDialog(
-                              title: 'please provide an image',
-                              content: Text('image must be select'));
-                        } else {
-                          final response =
-                              ref.read(logSignProvider).signUpdesigner(
-                                    userName: usernameController.text.trim(),
-                                    email: mailController.text.trim(),
-                                    password: passController.text.trim(),
-                                    image: db.image!,
-                                    position: positionController.text.trim(),
-                                  );
-                          if (response == 'adduser') {
-                            Navigator.pop(context);
+                          if (db.image == null) {
+                            Get.defaultDialog(
+                                title: 'please provide an image',
+                                content: Text('image must be select'));
+                          } else {
+                            final response =
+                                ref.read(logSignProvider).signUpdesigner(
+                                      userName: usernameController.text.trim(),
+                                      email: mailController.text.trim(),
+                                      password: passController.text.trim(),
+                                      image: db.image!,
+                                      position: positionController.text.trim(),
+                                    );
+                            if (response == 'adduser') {
+                              Navigator.pop(context);
+                            }
                           }
-                        }
-                      },
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
+                        },
+                        child: isLoading
+                            ? Center(
+                                child: Text(
+                                'Login',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ))
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Is Loading please wait',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              )),
                   ),
                 ],
               ),

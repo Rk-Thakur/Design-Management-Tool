@@ -52,7 +52,7 @@ class messagepage extends ConsumerWidget {
                                             .removemessage(messageId: dat.id);
 
                                         if (response == 'success') {
-                                          print('not deleted');
+                                          print(' deleted');
                                         }
                                       },
                                       child: Container(

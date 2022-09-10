@@ -11,12 +11,21 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
   final userNameController = TextEditingController();
+
   final mailController = TextEditingController();
+
   final passController = TextEditingController();
 
   final _form = GlobalKey<FormState>();
+
+  bool _obsecuretext = true;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +105,7 @@ class AuthScreen extends StatelessWidget {
                           return 'Password field is required';
                         }
                       },
-                      obscureText: true,
+                      obscureText: _obsecuretext,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -113,9 +122,15 @@ class AuthScreen extends StatelessWidget {
                         ),
                         labelText: "Password",
                         suffixIcon: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              _obsecuretext = !_obsecuretext;
+                            });
+                          },
                           icon: Icon(
-                            Icons.remove_red_eye,
+                            _obsecuretext
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                             color: HexColor("#94B49F"),
                           ),
                         ),
@@ -149,52 +164,39 @@ class AuthScreen extends StatelessWidget {
                           //   ),
                           // );
                         }
-                      } else {
-                        if (db.image == null) {
-                          Get.defaultDialog(
-                              title: 'please provide an image',
-                              content: Text('image must be select'));
-                        } else {
-                          ref.read(logSignProvider).signUp(
-                              userName: userNameController.text.trim(),
-                              email: mailController.text.trim(),
-                              password: passController.text.trim(),
-                              image: db.image!);
-                        }
                       }
                     },
                     child: Container(
-                      height: 60,
-                      margin: EdgeInsets.only(
-                          top: 20, left: 40, right: 40, bottom: 10),
-                      decoration: BoxDecoration(
-                          color: HexColor("#94B49F"),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.black26)),
-                      width: double.infinity,
-                      child: isLoading
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Is Loading please wait',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                CircularProgressIndicator(
+                        height: 60,
+                        margin: EdgeInsets.only(
+                            top: 20, left: 40, right: 40, bottom: 10),
+                        decoration: BoxDecoration(
+                            color: HexColor("#94B49F"),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.black26)),
+                        width: double.infinity,
+                        child: isLoading
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Is Loading please wait',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              )
+                            : Center(
+                                child: Text(
+                                'Login',
+                                style: TextStyle(
                                   color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ],
-                            )
-                          : Center(
-                              child: Text(
-                              'Login',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
-                    ),
+                              ))),
                   ),
                 ],
               ),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 import '../models/user.dart';
 
@@ -14,6 +15,8 @@ class DetailPage extends StatelessWidget {
   final Post post;
   final User user;
   final _form = GlobalKey<FormState>();
+  final uid = auth.FirebaseAuth.instance.currentUser!.uid;
+
   DetailPage({required this.post, required this.user});
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,9 @@ class DetailPage extends StatelessWidget {
                           width: double.infinity,
                           image: NetworkImage(post.userImage),
                           colorFilter: new ColorFilter.mode(
-                              Colors.black.withOpacity(0.3), BlendMode.darken),
+                              Color.fromARGB(255, 247, 245, 245)
+                                  .withOpacity(0.3),
+                              BlendMode.darken),
                         ),
                       ),
                     ),
@@ -105,33 +110,51 @@ class DetailPage extends StatelessWidget {
                             TextFormField(
                               controller: commentController,
                               maxLines: 4,
+                              keyboardType: TextInputType.multiline,
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return 'Comments Please!!!!';
+                                }
+
+                                return null;
+                              },
                               decoration: InputDecoration(
-                                  hintText: 'Add some comments',
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 15),
-                                  border: OutlineInputBorder()),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 239, 235, 234),
+                                      width: 2.0),
+                                ),
+                                labelText: 'Add Comments',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                              ),
                             ),
                             SizedBox(
                               height: 15,
                             ),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: ElevatedButton(
+                              child: IconButton(
+                                  color: Color(0xffB4CFB0),
                                   onPressed: () async {
                                     SystemChannels.textInput
                                         .invokeMethod('TextInput.hide');
-                                    final newComment = Comments(
-                                        imageUrl: user.userImage,
-                                        username: user.username,
-                                        comment: commentController.text.trim());
+                                    if (_form.currentState!.validate()) {
+                                      final newComment = Comments(
+                                          imageUrl: user.userImage,
+                                          username: user.username,
+                                          comment:
+                                              commentController.text.trim());
 
-                                    post.comments.add(newComment);
-                                    await ref
-                                        .read(crudProvider)
-                                        .addComment(post.comments, post.id);
-                                    commentController.clear();
+                                      post.comments.add(newComment);
+                                      await ref
+                                          .read(crudProvider)
+                                          .addComment(post.comments, post.id);
+                                      commentController.clear();
+                                    }
                                   },
-                                  child: Text("submit")),
+                                  icon: Icon(Icons.message)),
                             ),
                             posts.when(
                                 data: (data) {

@@ -37,62 +37,52 @@ class _homeState extends State<home> {
         final postStream = ref.watch(postProvider);
         final userStream = ref.watch(userProvider);
         return SafeArea(
-          child: Scaffold(
+            child: Scaffold(
+          body: NestedScrollView(
+            scrollDirection: Axis.vertical,
+            physics: ScrollPhysics(),
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  snap: true,
+                  floating: true,
+                  backgroundColor: Colors.white,
+
+                  title: GradientText(
+                    'DMT',
+                    style: TextStyle(fontSize: 30),
+                    colors: [
+                      const Color(0xffE5E3C9),
+                      const Color(0xffB4CFB0),
+                      const Color(0xff94B49F),
+                      const Color(0xff789395),
+                    ],
+                  ),
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          Get.to(() => messagepage(),
+                              transition: Transition.zoom);
+                        },
+                        icon: Icon(
+                          Icons.message,
+                          color: Color(0xff94B49F),
+                          size: 30,
+                        )),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                  // actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
+                ),
+              ];
+            },
             key: _globalKey,
             body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Container(
-                    height: 45,
-                    width: double.infinity,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            // InkWell(
-                            //   onTap: () {
-                            //     setState(() {
-                            //       _globalKey.currentState!.openDrawer();
-                            //     });
-                            //   },
-                            //   child: Icon(
-                            //     Icons.menu,
-                            //     size: 30,
-                            //   ),
-                            // ),
-                            //
-                            GradientText(
-                              'DMT',
-                              style: TextStyle(
-                                fontSize: 30.0,
-                              ),
-                              colors: [
-                                const Color(0xffE5E3C9),
-                                const Color(0xffB4CFB0),
-                                const Color(0xff94B49F),
-                                const Color(0xff789395),
-                              ],
-                            ),
-                          ],
-                        ),
-                        InkWell(
-                          onTap: (() {
-                            Get.to(() => messagepage(),
-                                transition: Transition.zoom);
-                          }),
-                          child: Icon(
-                            Icons.message,
-                            color: Color(0xff94B49F),
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Color(0xffE5E3C9),
@@ -449,32 +439,10 @@ class _homeState extends State<home> {
               ),
             ),
           ),
-        );
+        ));
 
         // drawer: DrawerWidget(),
       },
     );
   }
-
-  // Future downloadFile(
-  //     {required String userImage, required String title}) async {
-  //   final tempDir = await getTemporaryDirectory();
-  //   final path = '${tempDir.path}/${title}';
-  //   await Dio().download(userImage, path);
-  //   // final dir = await getApplicationDocumentsDirectory();
-  //   // final file = File('${dir.path}/${ref.name}');
-  //   // await ref.writeToFile(file);
-  //   print('savePath' + "${path}");
-
-  //   GFToast.showToast(
-  //     'Downloaded ${title}',
-  //     context,
-  //     toastPosition: GFToastPosition.BOTTOM,
-  //     textStyle: TextStyle(
-  //       fontSize: 16,
-  //       color: GFColors.DARK,
-  //     ),
-  //     backgroundColor: GFColors.LIGHT,
-  //   );
-  // }
 }

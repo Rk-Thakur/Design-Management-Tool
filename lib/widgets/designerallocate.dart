@@ -9,6 +9,7 @@ class designerAllocate extends StatelessWidget {
       appBar: AppBar(
         title: Text("Designer Allocation"),
         centerTitle: true,
+        backgroundColor: Color(0xffB4CFB0),
       ),
       body: Consumer(
         builder: (context, ref, child) {
@@ -35,7 +36,12 @@ class designerAllocate extends StatelessWidget {
                                   child: Card(
                                     elevation: 5,
                                     child: ListTile(
-                                      title: Text(dat.designtitle),
+                                      title: Text(
+                                        dat.designtitle,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                       subtitle:
                                           Text(dat.designername.toUpperCase()),
                                     ),

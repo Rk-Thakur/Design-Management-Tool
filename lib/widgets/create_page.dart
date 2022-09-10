@@ -135,9 +135,13 @@ class CreatePage extends StatelessWidget {
                                             Border.all(color: Colors.black)),
                                     child: image == null
                                         ? Center(child: Text('Select an image'))
-                                        : Image.file(
-                                            File(image.path),
-                                            fit: BoxFit.cover,
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image.file(
+                                              File(image.path),
+                                              fit: BoxFit.cover,
+                                            ),
                                           )),
                               ),
                             ),
@@ -191,6 +195,11 @@ class CreatePage extends StatelessWidget {
                                           ),
                                         );
                                         if (response == 'success') {
+                                          Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          );
                                           Navigator.of(context).pop();
                                           // Notify(
                                           //     // title: titleController.text.trim(),
